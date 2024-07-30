@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
   return (
-    <div className="flex items-center justify-center min-h-screen overflow-hidden ">
+    <div className="flex items-center justify-center h-min-screen overflow-hidden ">
       <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0">
         {/* left side */}
         <div className="flex flex-col justify-center p-8 md:p-14">
@@ -44,7 +45,10 @@ export const Login = () => {
           </button>
           <div className="text-center text-gray-400">
             Don't have an account?
-            <span className="font-bold text-black"> Sign up for free</span>
+            <Link to="/signup" className="font-bold text-black">
+              {" "}
+              Sign up
+            </Link>
           </div>
         </div>
         {/* right side */}

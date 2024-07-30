@@ -1,107 +1,111 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 export const SignUp = () => {
   return (
-    <section className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Create an account
-            </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Your email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="confirm-password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Confirm password
-                </label>
-                <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
-                  placeholder="••••••••"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required
-                />
-              </div>
-              <div className="flex items-start">
-                <div className="flex items-center h-5">
+    <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+      <div className="container max-w-screen-lg mx-auto">
+        <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
+          <div className="text-gray-600 mb-6">
+            <p className=" text-4xl font-bold text-black">Sign Up</p>
+          </div>
+          <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-3">
+              <div className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                <div className="md:col-span-5">
+                  <label htmlFor="full_name">Full Name</label>
                   <input
-                    id="terms"
-                    aria-describedby="terms"
-                    type="checkbox"
-                    className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
-                    required
+                    type="text"
+                    name="full_name"
+                    id="full_name"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
                   />
                 </div>
-                <div className="ml-3 text-sm">
-                  <label
-                    htmlFor="terms"
-                    className="font-light text-gray-500 dark:text-gray-300"
+                <div className="md:col-span-5">
+                  <label htmlFor="email">Email Address</label>
+                  <input
+                    type="text"
+                    name="email"
+                    id="email"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
+                    placeholder="email@domain.com"
+                  />
+                </div>
+                <div className="md:col-span-5">
+                  <label htmlFor="address">Address / Street</label>
+                  <input
+                    type="text"
+                    name="address"
+                    id="address"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
+                    placeholder=""
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="city">City</label>
+                  <input
+                    type="text"
+                    name="city"
+                    id="city"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
+                    placeholder=""
+                  />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="country">Country / region</label>
+                  <select
+                    name="country"
+                    id="country"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
                   >
-                    I accept the{" "}
-                    <a
-                      className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                      href="#"
-                    >
-                      Terms and Conditions
-                    </a>
-                  </label>
+                    <option value="">Select a country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="AU">Australia</option>
+                    <option value="IN">India</option>
+                    <option value="PK">Pakistan</option>
+                    {/* Add more country options as needed */}
+                  </select>
+                </div>
+                <div className="md:col-span-1">
+                  <label htmlFor="state">State / province</label>
+                  <input
+                    type="text"
+                    name="state"
+                    id="state"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
+                    placeholder=""
+                  />
+                </div>
+                <div className="md:col-span-1">
+                  <label htmlFor="zipcode">Zipcode</label>
+                  <input
+                    type="text"
+                    name="zipcode"
+                    id="zipcode"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    defaultValue=""
+                    placeholder=""
+                  />
+                </div>
+                <div className="md:col-span-5 text-right">
+                  <div className="inline-flex items-end">
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                      Submit
+                    </button>
+                  </div>
                 </div>
               </div>
-              <button
-                type="submit"
-                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-              >
-                Create an account
-              </button>
-              <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Already have an account?{" "}
-                <a
-                  href="#"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                >
-                  Login here
-                </a>
-              </p>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };

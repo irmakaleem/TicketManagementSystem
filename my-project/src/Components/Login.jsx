@@ -7,10 +7,7 @@ export const Login = () => {
       <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0">
         {/* left side */}
         <div className="flex flex-col justify-center p-8 md:p-14">
-          <span className="mb-3 text-4xl font-bold">Welcome back</span>
-          <span className="font-light text-gray-400 mb-8">
-            Welcome back! Please enter your details
-          </span>
+          <span className="mb-3 text-4xl font-bold">Login Here</span>
           <div className="py-4">
             <label htmlFor="email" className="mb-2 text-left text-md block">
               Email
@@ -38,14 +35,16 @@ export const Login = () => {
               <input type="checkbox" name="ch" id="ch" className="mr-2" />
               <span className="text-md">Remember for 30 days</span>
             </div>
-            <span className="font-bold text-md">Forgot password</span>
+            <span className="font-bold text-md text-blue-500 ">
+              Forgot password
+            </span>
           </div>
-          <button className="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300">
+          <button className="w-full bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-lg mb-6  hover:text-white hover:border">
             Sign in
           </button>
           <div className="text-center text-gray-400">
             Don't have an account?
-            <Link to="/signup" className="font-bold text-black">
+            <Link to="/signup" className="font-bold text-blue-500">
               {" "}
               Sign up
             </Link>
@@ -54,9 +53,9 @@ export const Login = () => {
         {/* right side */}
         <div className="relative">
           <img
-            src="./images/airplane.jpg"
+            src="./images/planewing.jpg"
             alt="img"
-            className="w-[500px] h-full hidden rounded-r-2xl md:block object-cover"
+            className="w-[450px] h-full hidden rounded-r-2xl md:block object-cover"
           />
         </div>
       </div>

@@ -10,7 +10,10 @@ export const SplashScreen = () => {
             {" "}
             Login
           </Link>
-          <button className="signup-btn">Sign Up</button>
+          <Link to="/signup" className="signup-btn">
+            {" "}
+            SignUp
+          </Link>
         </div>
       </div>
       <div className="container1">

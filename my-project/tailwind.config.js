@@ -19,6 +19,12 @@ export default {
           950: "#172554",
         },
       },
+      backdropBlur: {
+        xs: "2px",
+      },
+      backdropBrightness: {
+        70: ".7",
+      },
     },
     fontFamily: {
       body: [

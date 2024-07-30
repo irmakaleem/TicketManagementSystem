@@ -2,7 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 export const SignUp = () => {
   return (
-    <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+    <div
+      className="min-h-screen p-6 flex items-center justify-center bg-cover bg-center "
+      style={{ backgroundImage: "url('./images/airport.jpg')" }}
+    >
       <div className="container max-w-screen-lg mx-auto">
         <div className="bg-white rounded shadow-lg p-4 px-4 md:p-8 mb-6">
           <div className="text-gray-600 mb-6">

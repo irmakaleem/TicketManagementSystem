@@ -53,7 +53,7 @@ export const Login = () => {
         {/* right side */}
         <div className="relative">
           <img
-            src="./images/planewing.jpg"
+            src="./images/wing.png"
             alt="img"
             className="w-[450px] h-full hidden rounded-r-2xl md:block object-cover"
           />

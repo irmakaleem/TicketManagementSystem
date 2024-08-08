@@ -1,182 +1,133 @@
 import React, { useState } from "react";
 
 const ContactUs = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [emailError, setEmailError] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
 
-  const handleEmailChange = (e) => {
-    const value = e.target.value;
-    setEmail(value);
-
+  const validate = () => {
+    const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(value)) {
-      setEmailError("Invalid email address");
+    const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
+
+    if (!nameRegex.test(name)) {
+      errors.name = "Name can only contain letters and spaces";
+    }
+    if (!emailRegex.test(email)) {
+      errors.email = "Invalid email address";
+    }
+    if (!subject) {
+      errors.subject = "Subject is required";
+    }
+    if (!message) {
+      errors.message = "Message is required";
+    }
+
+    return errors;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
     } else {
-      setEmailError("");
+      console.log({ name, email, subject, message });
     }
   };
 
   return (
-    <div
-      id="contact-us"
-      className="bg-white dark:bg-blue-500 flex items-center justify-center px-4 py-8"
-      style={{
-        backgroundImage: "url('./images/xt.png')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-      }}
-    >
-      <div className="relative mx-auto max-w-md w-full">
-        {/* Decorative SVGs */}
-        <svg
-          className="absolute left-full translate-x-1/2 transform"
-          width={404}
-          height={404}
-          fill="none"
-          viewBox="0 0 404 404"
-          aria-hidden="true"
-        >
-          <defs>
-            <pattern
-              id="85737c0e-0916-41d7-917f-596dc7edfa27"
-              x={0}
-              y={0}
-              width={20}
-              height={20}
-              patternUnits="userSpaceOnUse"
-            >
-              <rect
-                x={0}
-                y={0}
-                width={4}
-                height={4}
-                className="text-gray-200 dark:text-slate-600"
-                fill="currentColor"
-              />
-            </pattern>
-          </defs>
-          <rect
-            width={404}
-            height={404}
-            fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)"
-          />
-        </svg>
-        <svg
-          className="absolute right-full bottom-0 -translate-x-1/2 transform"
-          width={404}
-          height={404}
-          fill="none"
-          viewBox="0 0 404 404"
-          aria-hidden="true"
-        >
-          <defs>
-            <pattern
-              id="85737c0e-0916-41d7-917f-596dc7edfa27"
-              x={0}
-              y={0}
-              width={20}
-              height={20}
-              patternUnits="userSpaceOnUse"
-            >
-              <rect
-                x={0}
-                y={0}
-                width={4}
-                height={4}
-                className="text-gray-200 dark:text-slate-800"
-                fill="currentColor"
-              />
-            </pattern>
-          </defs>
-          <rect
-            width={404}
-            height={404}
-            fill="url(#85737c0e-0916-41d7-917f-596dc7edfa27)"
-          />
-        </svg>
-
-        {/* Content Section */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-extrabold tracking-tight text-blue-500 dark:text-slate-200 sm:text-4xl">
-            Contact Us
-          </h2>
-          <p className="mt-4 text-lg leading-6 text-slate-400 dark:text-slate-400">
-            Please use the form below to contact us. Thank you!
-          </p>
-        </div>
-
-        {/* Form Section */}
-        <div>
-          <form className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8">
-            <div className="sm:col-span-2">
+    <div className="flex justify-center items-start  bg-gray-100  m-4">
+      <div className=" w-full bg-white shadow-md rounded-lg p-6 sm:p-12">
+        <h2 className="text-2xl font-semibold text-gray-800  mb-6">
+          Contact Us
+        </h2>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-blue-500 dark:text-slate-400"
+                className="block text-sm font-medium text-gray-700 dark:text-dark-text"
               >
                 Name
               </label>
-              <div className="mt-1">
-                <input
-                  name="name"
-                  type="text"
-                  id="name"
-                  autoComplete="organization"
-                  required
-                  className="border border-gray-300 block w-full rounded-md py-4 px-6 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:border-white/5 dark:bg-slate-700/50 dark:text-white"
-                />
-              </div>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+              />
+              {errors.name && (
+                <p className="text-red-600 text-sm mt-1">{errors.name}</p>
+              )}
             </div>
-            <div className="sm:col-span-2">
+            <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-blue-500 dark:text-slate-400"
+                className="block text-sm font-medium text-gray-700 dark:text-dark-text"
               >
                 Email
               </label>
-              <div className="mt-1">
-                <input
-                  name="email"
-                  id="email"
-                  required
-                  type="email"
-                  autoComplete="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className="border border-gray-300 block w-full rounded-md py-4 px-6 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:border-white/5 dark:bg-slate-700/50 dark:text-white"
-                />
-                {emailError && (
-                  <p className="mt-2 text-sm text-red-600">{emailError}</p>
-                )}
-              </div>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+              />
+              {errors.email && (
+                <p className="text-red-600 text-sm mt-1">{errors.email}</p>
+              )}
             </div>
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="message"
-                className="block text-sm font-medium text-blue-500 dark:text-slate-400"
-              >
-                Message
-              </label>
-              <div className="mt-1">
-                <textarea
-                  required
-                  name="message"
-                  id="message"
-                  rows={4}
-                  className="border border-gray-300 block w-full rounded-md py-4 px-6 shadow-sm focus:border-sky-500 focus:ring-sky-500 dark:border-white/5 dark:bg-slate-700/50 dark:text-white"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end sm:col-span-2">
-              <button
-                type="submit"
-                className="inline-flex items-center rounded-md px-4 py-2 font-medium focus:outline-none focus-visible:ring focus-visible:ring-sky-500 shadow-sm sm:text-sm transition-colors duration-75 text-blue-500 border border-sky-600 hover:bg-sky-50 active:bg-sky-100 disabled:bg-sky-100 dark:hover:bg-gray-900 dark:active:bg-gray-800 dark:disabled:bg-gray-800 disabled:cursor-not-allowed"
-              >
-                <span>Send Message</span>
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+          <div>
+            <label
+              htmlFor="subject"
+              className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+            >
+              Subject
+            </label>
+            <input
+              type="text"
+              id="subject"
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
+              className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+            />
+            {errors.subject && (
+              <p className="text-red-600 text-sm mt-1">{errors.subject}</p>
+            )}
+          </div>
+          <div>
+            <label
+              htmlFor="message"
+              className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+            >
+              Message
+            </label>
+            <textarea
+              id="message"
+              rows="4"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2  focus:ring-primary-500 focus:border-primary-500"
+            ></textarea>
+            {errors.message && (
+              <p className="text-red-600 text-sm mt-1">{errors.message}</p>
+            )}
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className="bg-blue-500 text-white px-6 py-2 rounded-md shadow hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Send
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );

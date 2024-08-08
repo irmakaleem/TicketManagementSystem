@@ -4,12 +4,14 @@ import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 // import DashboardContact from "./DashboardContact";
 import ContactUs from "./ContactUs";
-// import FeedBack from "../FeedBack";
+import { FeedBack } from "./FeedBack";
 import { Route, Routes } from "react-router-dom";
+import Complaint from "./Complaint";
+import ComplainTable from "./ComplainTable";
 
 const DashboardMain = () => {
   return (
-    <div className="grid grid-cols-12 bg-body-light dark:bg-dark-body">
+    <div className="grid grid-cols-12 bg-body-light ">
       <div className="col-span-3 flex justify-center items-start m-4">
         {" "}
         <LeftSidebar />
@@ -24,7 +26,10 @@ const DashboardMain = () => {
           {/* tumhe srf dashbaord pr dikhana to srf / lagado */}
           <Route path="/" element={<RightSidebar />} />
           <Route path="/contact" element={<ContactUs />} />
-          {/* <Route path="/feedback" element={<FeedBack />} /> */}
+          <Route path="/feedback" element={<FeedBack />} />
+          <Route path="/complaint" element={<Complaint />} />
+          <Route path="/complaintable" element={<ComplainTable />} />
+
           {/* <Route path="/contact" element={<DashboardContact />} /> */}
         </Routes>
       </div>

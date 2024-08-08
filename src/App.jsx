@@ -7,6 +7,7 @@ import { SignUp } from "./Components/SignUp";
 // import { Contact } from "./Components/Contact"; // Use named import
 // import { FeedBack } from "./Components/FeedBack";
 import DashboardMain from "./Components/Dashboard/DashboardMain";
+import Test from "./Components/Test";
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/test" element={<Test />} />
+
         {/* <Route path="/contact" element={<Contact />} /> */}
         {/* <Route path="/feedback" element={<FeedBack />} /> */}
         {/* /dashboard/* ka mtlb /dashboard may jitne bhi sub routes hon wo bhi render hon agr /* ye nhi lagata aage to sub routes kaam nhi krte */}

@@ -2,7 +2,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <header className="header px-4 sm:px-6 h-[calc(theme('spacing.header')_-_10px)] sm:h-header bg-white dark:bg-dark-card rounded-none xl:rounded-15 flex items-center mb-4 xl:m-4 group-data-[sidebar-size=lg]:xl:ml-[calc(theme('spacing.app-menu')_+_32px)] group-data-[sidebar-size=sm]:xl:ml-[calc(theme('spacing.app-menu-sm')_+_32px)] ac-transition">
+    <header className="header px-4 sm:px-6 h-[calc(theme('spacing.header')_-_10px)] sm:h-header bg-white rounded-none xl:rounded-15 flex items-center mb-4 xl:m-4 group-data-[sidebar-size=lg]:xl:ml-[calc(theme('spacing.app-menu')_+_32px)] group-data-[sidebar-size=sm]:xl:ml-[calc(theme('spacing.app-menu-sm')_+_32px)] ac-transition">
       <div className="flex-center-between grow">
         {/* Header Left */}
         <div className="flex items-center gap-4">
@@ -21,8 +21,21 @@ const Header = () => {
             />
           </div>
           <div className="w-56 md:w-72 leading-none text-sm relative text-gray-900 dark:text-dark-text hidden sm:block">
-            <span className="absolute top-1/2 -translate-y-[40%] left-3.5">
-              <i className="ri-search-line text-gray-900 dark:text-dark-text text-[14px]" />
+            <span className="absolute top-1/2 -translate-y-[51%] left-3.5">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={1.5}
+                stroke="currentColor"
+                className="size-4 ri-search-line text-gray-900  "
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"
+                />
+              </svg>
             </span>
             <input
               type="text"
@@ -31,11 +44,6 @@ const Header = () => {
               placeholder="Search..."
               className="bg-transparent pl-[36px] pr-12 py-4 dk-border-one rounded-full w-full font-spline_sans focus:outline-none focus:border-primary-500"
             />
-            <span className="absolute top-1/2 -translate-y-[40%] right-4 hidden lg:flex lg:items-center lg:gap-0.5 select-none">
-              <i className="ri-command-line text-[12px]" />
-              <span>+</span>
-              <span>k</span>
-            </span>
           </div>
         </div>
         {/* Header Right */}
@@ -77,8 +85,30 @@ const Header = () => {
               />
             </svg>
           </button>
-
           {/* Notification Button */}
+          <button
+            type="button"
+            className="size-8 flex-center hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
+            data-drawer-target="app-setting-drawer"
+            data-drawer-show="app-setting-drawer"
+            data-drawer-placement="right"
+            aria-controls="app-setting-drawer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              />
+            </svg>
+          </button>
           {/* Notification Button */}
           <div className="relative">
             <button

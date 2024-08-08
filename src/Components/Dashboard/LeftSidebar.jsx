@@ -75,10 +75,10 @@ const LeftSidebar = () => {
               </a>
             </li>
 
-            {/* Contact */}
+            {/* Complain */}
             <li className="relative group/sm w-full group-data-[sidebar-size=sm]:hover:w-[calc(theme('spacing.app-menu-sm')_*_3.4)] group-data-[sidebar-size=sm]:flex-center">
               <a
-                href="/dashboard/contact"
+                href="/dashboard/complaint"
                 className="relative text-gray-500 dark:text-dark-text-two font-medium leading-none px-3.5 py-3 h-[42px] flex items-center group/menu-link ac-transition group-data-[sidebar-size=sm]:bg-gray-100 dark:group-data-[sidebar-size=sm]:bg-dark-icon group-data-[sidebar-size=sm]:hover:bg-primary-500/95 group-data-[sidebar-size=sm]:[&.active]:bg-primary-500/95 hover:text-white [&.active]:text-white hover:!bg-primary-500/95 [&.active]:bg-primary-500/95 group-data-[sidebar-size=sm]:rounded-lg group-data-[sidebar-size=sm]:group-hover/sm:!rounded-br-none group-data-[sidebar-size=lg]:rounded-l-full group-data-[sidebar-size=sm]:p-3 group-data-[sidebar-size=sm]:w-full"
               >
                 <span className="shrink-0 group-data-[sidebar-size=sm]:w-[calc(theme('spacing.app-menu-sm')_*_0.43)] group-data-[sidebar-size=sm]:flex-center">
@@ -116,15 +116,59 @@ const LeftSidebar = () => {
                   </svg>
                 </span>
                 <span className="group-data-[sidebar-size=sm]:hidden group-data-[sidebar-size=sm]:ml-6 group-data-[sidebar-size=sm]:group-hover/sm:block ml-3 shrink-0">
-                  Contact Us
+                  Complaints
                 </span>
               </a>
             </li>
-
-            {/* CALENDAR */}
+            {/* complain table */}
             <li className="relative group/sm w-full group-data-[sidebar-size=sm]:hover:w-[calc(theme('spacing.app-menu-sm')_*_3.4)] group-data-[sidebar-size=sm]:flex-center">
               <a
-                href="calendar-multi-month-stack.html"
+                href="/dashboard/complaintable"
+                className="relative text-gray-500 dark:text-dark-text-two font-medium leading-none px-3.5 py-3 h-[42px] flex items-center group/menu-link ac-transition group-data-[sidebar-size=sm]:bg-gray-100 dark:group-data-[sidebar-size=sm]:bg-dark-icon group-data-[sidebar-size=sm]:hover:bg-primary-500/95 group-data-[sidebar-size=sm]:[&.active]:bg-primary-500/95 hover:text-white [&.active]:text-white hover:!bg-primary-500/95 [&.active]:bg-primary-500/95 group-data-[sidebar-size=sm]:rounded-lg group-data-[sidebar-size=sm]:group-hover/sm:!rounded-br-none group-data-[sidebar-size=lg]:rounded-l-full group-data-[sidebar-size=sm]:p-3 group-data-[sidebar-size=sm]:w-full"
+              >
+                <span className="shrink-0 group-data-[sidebar-size=sm]:w-[calc(theme('spacing.app-menu-sm')_*_0.43)] group-data-[sidebar-size=sm]:flex-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width={16}
+                    height={16}
+                    viewBox="0 0 16 16"
+                    fill="none"
+                  >
+                    <path
+                      d="M15.3864 8.00002C15.3866 9.2969 15.0452 10.5709 14.3966 11.694C13.7481 12.8171 12.8152 13.7495 11.6918 14.3975C10.5685 15.0456 9.29425 15.3863 7.99737 15.3856C6.70049 15.3848 5.42669 15.0425 4.30411 14.3931L1.42796 15.3523C1.31953 15.3885 1.20317 15.3937 1.09193 15.3675C0.980686 15.3412 0.878953 15.2845 0.798131 15.2037C0.717309 15.1229 0.660594 15.0211 0.634341 14.9099C0.608088 14.7987 0.613336 14.6823 0.649496 14.5739L1.60873 11.6977C1.04173 10.717 0.707971 9.61897 0.633264 8.48861C0.558557 7.35825 0.74491 6.22586 1.1779 5.17905C1.61089 4.13224 2.27892 3.19908 3.13028 2.45177C3.98165 1.70446 4.99353 1.16304 6.08764 0.869402C7.18175 0.575763 8.32874 0.537777 9.43988 0.758384C10.551 0.97899 11.5965 1.45227 12.4955 2.14162C13.3944 2.83096 14.1227 3.71787 14.624 4.73374C15.1253 5.74961 15.3862 6.8672 15.3864 8.00002Z"
+                      fill="#EEEEEE"
+                      className="group-hover/menu-link:fill-[url(#icon_gradient)] group-[.active]/menu-link:fill-[url(#icon_gradient)] dark:fill-none"
+                    />
+                    <path
+                      d="M8.00175 1.9052e-07C6.62057 -0.000301201 5.26284 0.356991 4.06071 1.0371C2.85858 1.71721 1.85301 2.69696 1.14188 3.881C0.430744 5.06504 0.0382705 6.41302 0.00265996 7.79374C-0.0329505 9.17446 0.289515 10.5409 0.938669 11.76L0.0655923 14.3792C-0.00672718 14.5961 -0.0172224 14.8288 0.035283 15.0513C0.0877884 15.2738 0.201219 15.4772 0.362863 15.6389C0.524506 15.8005 0.727973 15.914 0.950459 15.9665C1.17295 16.019 1.40566 16.0085 1.62252 15.9362L4.24175 15.0631C5.31465 15.6337 6.50345 15.9525 7.71792 15.9951C8.93239 16.0377 10.1406 15.8031 11.2509 15.309C12.3611 14.815 13.3442 14.0745 14.1256 13.1438C14.9069 12.213 15.466 11.1165 15.7603 9.93749C16.0546 8.75844 16.0765 7.52785 15.8242 6.33911C15.5719 5.15036 15.0521 4.03472 14.3042 3.07686C13.5564 2.119 12.6002 1.34409 11.5081 0.810965C10.4161 0.277837 9.21697 0.000498639 8.00175 1.9052e-07ZM8.00175 14.7692C6.81173 14.77 5.64259 14.4567 4.61252 13.8608C4.51903 13.8065 4.4129 13.7779 4.30482 13.7777C4.23862 13.7777 4.17287 13.7886 4.11021 13.81L1.23252 14.7692L2.19175 11.8923C2.2194 11.8096 2.22917 11.722 2.22042 11.6353C2.21166 11.5486 2.18459 11.4647 2.14098 11.3892C1.3948 10.0992 1.09521 8.59891 1.28869 7.1212C1.48217 5.64349 2.1579 4.27094 3.21104 3.21646C4.26419 2.16197 5.6359 1.48452 7.11336 1.28917C8.59082 1.09383 10.0915 1.39152 11.3825 2.13607C12.6735 2.88061 13.6827 4.03039 14.2536 5.40704C14.8244 6.78369 14.925 8.31025 14.5398 9.74992C14.1545 11.1896 13.3049 12.4619 12.1228 13.3694C10.9407 14.2769 9.49207 14.769 8.00175 14.7692ZM8.92482 8C8.92482 8.18257 8.87069 8.36104 8.76926 8.51283C8.66783 8.66463 8.52366 8.78295 8.35499 8.85281C8.18632 8.92268 8.00072 8.94096 7.82166 8.90534C7.6426 8.86972 7.47813 8.78181 7.34903 8.65271C7.21994 8.52362 7.13202 8.35914 7.09641 8.18008C7.06079 8.00102 7.07907 7.81542 7.14893 7.64675C7.2188 7.47808 7.33711 7.33392 7.48891 7.23249C7.64071 7.13106 7.81918 7.07692 8.00175 7.07692C8.24656 7.07692 8.48135 7.17418 8.65446 7.34729C8.82757 7.5204 8.92482 7.75519 8.92482 8ZM5.54021 8C5.54021 8.18257 5.48607 8.36104 5.38464 8.51283C5.28321 8.66463 5.13905 8.78295 4.97038 8.85281C4.80171 8.92268 4.61611 8.94096 4.43705 8.90534C4.25799 8.86972 4.09351 8.78181 3.96442 8.65271C3.83532 8.52362 3.74741 8.35914 3.71179 8.18008C3.67617 8.00102 3.69445 7.81542 3.76432 7.64675C3.83418 7.47808 3.9525 7.33392 4.1043 7.23249C4.2561 7.13106 4.43456 7.07692 4.61713 7.07692C4.86195 7.07692 5.09673 7.17418 5.26985 7.34729C5.44296 7.5204 5.54021 7.75519 5.54021 8ZM12.3094 8C12.3094 8.18257 12.2553 8.36104 12.1539 8.51283C12.0524 8.66463 11.9083 8.78295 11.7396 8.85281C11.5709 8.92268 11.3853 8.94096 11.2063 8.90534C11.0272 8.86972 10.8627 8.78181 10.7336 8.65271C10.6046 8.52362 10.5166 8.35914 10.481 8.18008C10.4454 8.00102 10.4637 7.81542 10.5336 7.64675C10.6034 7.47808 10.7217 7.33392 10.8735 7.23249C11.0253 7.13106 11.2038 7.07692 11.3864 7.07692C11.6312 7.07692 11.866 7.17418 12.0391 7.34729C12.2122 7.5204 12.3094 7.75519 12.3094 8Z"
+                      fill="#999999"
+                      className="group-hover/menu-link:fill-white group-[.active]/menu-link:fill-white"
+                    />
+                    <defs>
+                      <linearGradient
+                        id="icon_gradient"
+                        x1="2.18655"
+                        y1="3.46529"
+                        x2="8.18057"
+                        y2="12.9769"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop offset={0} stopColor="#795DED" />
+                        <stop offset="0.0001" stopColor="#7D5DFE" />
+                        <stop offset={1} stopColor="#76D466" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </span>
+                <span className="group-data-[sidebar-size=sm]:hidden group-data-[sidebar-size=sm]:ml-6 group-data-[sidebar-size=sm]:group-hover/sm:block ml-3 shrink-0">
+                  Test
+                </span>
+              </a>
+            </li>
+            {/* FEEDBACK */}
+            <li className="relative group/sm w-full group-data-[sidebar-size=sm]:hover:w-[calc(theme('spacing.app-menu-sm')_*_3.4)] group-data-[sidebar-size=sm]:flex-center">
+              <a
+                href="/dashboard/feedback"
                 className="relative text-gray-500 dark:text-dark-text-two font-medium leading-none px-3.5 py-3 h-[42px] flex items-center group/menu-link ac-transition group-data-[sidebar-size=sm]:bg-gray-100 dark:group-data-[sidebar-size=sm]:bg-dark-icon group-data-[sidebar-size=sm]:hover:bg-primary-500/95 group-data-[sidebar-size=sm]:[&.active]:bg-primary-500/95 hover:text-white [&.active]:text-white hover:!bg-primary-500/95 [&.active]:bg-primary-500/95 group-data-[sidebar-size=sm]:rounded-lg group-data-[sidebar-size=sm]:group-hover/sm:!rounded-br-none group-data-[sidebar-size=lg]:rounded-l-full group-data-[sidebar-size=sm]:p-3 group-data-[sidebar-size=sm]:w-full"
               >
                 <span className="shrink-0 group-data-[sidebar-size=sm]:w-[calc(theme('spacing.app-menu-sm')_*_0.43)] group-data-[sidebar-size=sm]:flex-center">
@@ -167,10 +211,10 @@ const LeftSidebar = () => {
               </a>
             </li>
 
-            {/* WIDGETS */}
+            {/* Contact */}
             <li className="relative group/sm w-full group-data-[sidebar-size=sm]:hover:w-[calc(theme('spacing.app-menu-sm')_*_3.4)] group-data-[sidebar-size=sm]:flex-center">
               <a
-                href="component-widgets.html"
+                href="/dashboard/contact"
                 className="relative text-gray-500 dark:text-dark-text-two font-medium leading-none px-3.5 py-3 h-[42px] flex items-center group/menu-link ac-transition peer/dp-btn group-data-[sidebar-size=sm]:bg-gray-100 dark:group-data-[sidebar-size=sm]:bg-dark-icon group-data-[sidebar-size=sm]:hover:bg-primary-500/95 group-data-[sidebar-size=sm]:[&.active]:bg-primary-500/95 hover:text-white [&.active]:text-white hover:!bg-primary-500/95 [&.active]:bg-primary-500/95 group-data-[sidebar-size=sm]:rounded-lg group-data-[sidebar-size=sm]:group-hover/sm:!rounded-br-none group-data-[sidebar-size=lg]:rounded-l-full group-data-[sidebar-size=sm]:p-3 group-data-[sidebar-size=sm]:w-full"
               >
                 <span className="shrink-0 group-data-[sidebar-size=sm]:w-[calc(theme('spacing.app-menu-sm')_*_0.43)] group-data-[sidebar-size=sm]:flex-center">
@@ -208,7 +252,7 @@ const LeftSidebar = () => {
                   </svg>
                 </span>
                 <span className="group-data-[sidebar-size=sm]:hidden group-data-[sidebar-size=sm]:ml-6 group-data-[sidebar-size=sm]:group-hover/sm:block ml-3 shrink-0">
-                  Widgets
+                  Contact Us
                 </span>
               </a>
             </li>

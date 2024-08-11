@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link, useNavigate } from "react-router-dom";
 const ComplainTable = () => {
   return (
     <div className="flex justify-center items-start flex-col bg-white rounded-lg m-4 p-4">
@@ -8,33 +8,19 @@ const ComplainTable = () => {
           className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
           id="cpmplain"
         >
-          <option value="male">Total Complaints</option>
-          <option value="female">Open Complaints</option>
-          <option value="female">Closed Complaints</option>
-          <option value="female">Dropped Complaints</option>
-          <option value="female">Resovled Complaints</option>
-          <option value="other">Pending Complaints</option>
+          <option value="TotalComplaints">Total Complaints</option>
+          <option value="OpenComplaints">Open Complaints</option>
+          <option value="ClosedComplaints">Closed Complaints</option>
+          <option value="DroppedComplaints">Dropped Complaints</option>
+          <option value="ResovledComplaints">Resovled Complaints</option>
+          <option value="PendingComplaints">Pending Complaints</option>
         </select>
-        <button className="cursor-pointer bg-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#4a89ff] hover:text-blue h-9 rounded-md px-3">
-          <svg
-            className="lucide lucide-rocket text-white dark:text-blue-400"
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            strokeWidth={2}
-            stroke="#06B6D4"
-            fill="none"
-            viewBox="0 0 24 24"
-            height={22}
-            width={22}
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
-            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
-            <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
-            <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
-          </svg>
+        <Link
+          to="/dashboard/new-complaint"
+          className="cursor-pointer bg-blue-500 text-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#4a89ff] hover:text-blue h-9 rounded-md px-3"
+        >
           New Complaint
-        </button>
+        </Link>
       </div>
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">

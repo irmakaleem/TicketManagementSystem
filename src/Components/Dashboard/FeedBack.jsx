@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 // FeedbackCard Component
-const FeedbackCard = ({ mainQuestion, subQuestion, options }) => {
+const FeedbackCard = ({
+  mainQuestion,
+  subQuestion,
+  options,
+  selectedOption,
+  onSelectOption,
+}) => {
   return (
-    <div className="relative w-full  mx-auto select-none rounded-lg border border-gray-200 p-6 shadow-lg bg-white">
+    <div className="relative w-full mx-auto select-none rounded-lg border border-gray-200 p-6 shadow-lg bg-white">
       <p className="text-xl font-bold text-gray-900 dark:text-white">
         {mainQuestion}
       </p>
@@ -26,7 +32,12 @@ const FeedbackCard = ({ mainQuestion, subQuestion, options }) => {
         {options.map((option) => (
           <div
             key={option}
-            className="flex h-12 w-full cursor-pointer items-center justify-center rounded-md bg-blue-100 text-blue-800 font-bold hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800"
+            onClick={() => onSelectOption(option)}
+            className={`flex h-12 w-full cursor-pointer items-center justify-center rounded-md font-bold ${
+              selectedOption === option
+                ? "bg-blue-600 text-white"
+                : "bg-blue-100 text-blue-800 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-300 dark:hover:bg-blue-800"
+            }`}
           >
             {option}
           </div>
@@ -42,11 +53,31 @@ const FeedbackCard = ({ mainQuestion, subQuestion, options }) => {
 
 // FeedBack Component
 export const FeedBack = () => {
-  // ye ek array of objects hai
-  // object = key value pairs
-  // is object may 3 keys hain mainQuestion,subQuestion,options
-  // options wali key ki value ek array defined hai [1, 2, 3, 4, 5]
-  // react may hum zyada tar arrays pr kaam krhe hote taakay hamara html ka code repeat na ho or ek hi jaga se changes hojayein smjhi???
+  // Initialize state to store the selected option for each question
+  const [feedback, setFeedback] = useState([
+    { mainQuestion: "Question 1", selectedOption: null },
+    { mainQuestion: "Question 2", selectedOption: null },
+    { mainQuestion: "Question 3", selectedOption: null },
+    { mainQuestion: "Question 4", selectedOption: null },
+    { mainQuestion: "Question 5", selectedOption: null },
+    { mainQuestion: "Question 6", selectedOption: null },
+  ]);
+
+  // Handle option selection
+  const handleOptionSelect = (index, option) => {
+    const newFeedback = [...feedback];
+    newFeedback[index].selectedOption = option;
+    setFeedback(newFeedback);
+  };
+
+  // Handle form submission
+  const handleSubmit = () => {
+    // Example: log the feedback to the console
+    console.log("Submitted Feedback:", feedback);
+
+    // Here, you can add code to send the feedback to an API endpoint
+  };
+
   const questions = [
     {
       mainQuestion: "Question 1",
@@ -91,18 +122,21 @@ export const FeedBack = () => {
       <h2 className="text-2xl font-semibold font-inherit text-gray-800 mb-6">
         FeedBack
       </h2>
-      <div className="grid gap-6 md:grid-cols-1 w-full ">
+      <div className="grid gap-6 md:grid-cols-1 w-full">
         {questions.map((q, index) => (
           <FeedbackCard
             key={index}
             mainQuestion={q.mainQuestion}
             subQuestion={q.subQuestion}
             options={q.options}
+            selectedOption={feedback[index].selectedOption}
+            onSelectOption={(option) => handleOptionSelect(index, option)}
           />
         ))}
         <div className="">
           <button
             type="submit"
+            onClick={handleSubmit}
             className="bg-blue-500 text-white px-6 py-2 rounded-md shadow hover:bg-sky-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             Submit

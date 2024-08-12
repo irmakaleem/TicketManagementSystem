@@ -1,16 +1,20 @@
 import React, { useState } from "react";
 
 const ContactUs = () => {
+  // State variables for the form fields
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+
+  // State variable for form validation errors
   const [errors, setErrors] = useState({});
 
+  // Validation function to check if the input fields are valid
   const validate = () => {
     const errors = {};
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const nameRegex = /^[a-zA-Z\s]+$/; // Only letters and spaces
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex for validating email addresses
+    const nameRegex = /^[a-zA-Z\s]+$/; // Regex for validating names (only letters and spaces)
 
     if (!nameRegex.test(name)) {
       errors.name = "Name can only contain letters and spaces";
@@ -28,20 +32,34 @@ const ContactUs = () => {
     return errors;
   };
 
+  // Form submission handler
   const handleSubmit = (e) => {
-    e.preventDefault();
-    const validationErrors = validate();
+    e.preventDefault(); // Prevent the form from submitting the traditional way
+    const validationErrors = validate(); // Perform validation
     if (Object.keys(validationErrors).length > 0) {
-      setErrors(validationErrors);
+      setErrors(validationErrors); // Set errors if validation fails
     } else {
-      console.log({ name, email, subject, message });
+      // Simulate form submission (replace this with an actual API call)
+      console.log("Form submitted with data:", {
+        name,
+        email,
+        subject,
+        message,
+      });
+
+      // Clear form fields and errors after submission
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+      setErrors({});
     }
   };
 
   return (
-    <div className="flex justify-center items-start  bg-gray-100  m-4">
-      <div className=" w-full bg-white shadow-md rounded-lg p-6 sm:p-12">
-        <h2 className="text-2xl font-semibold text-gray-800  mb-6">
+    <div className="flex justify-center items-start bg-gray-100 m-4">
+      <div className="w-full bg-white shadow-md rounded-lg p-6 sm:p-12">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
           Contact Us
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -49,7 +67,7 @@ const ContactUs = () => {
             <div>
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+                className="block text-sm font-medium text-gray-700"
               >
                 Name
               </label>
@@ -58,7 +76,7 @@ const ContactUs = () => {
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+                className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
               />
               {errors.name && (
                 <p className="text-red-600 text-sm mt-1">{errors.name}</p>
@@ -67,7 +85,7 @@ const ContactUs = () => {
             <div>
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+                className="block text-sm font-medium text-gray-700"
               >
                 Email
               </label>
@@ -76,7 +94,7 @@ const ContactUs = () => {
                 id="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+                className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
               />
               {errors.email && (
                 <p className="text-red-600 text-sm mt-1">{errors.email}</p>
@@ -86,7 +104,7 @@ const ContactUs = () => {
           <div>
             <label
               htmlFor="subject"
-              className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+              className="block text-sm font-medium text-gray-700"
             >
               Subject
             </label>
@@ -95,7 +113,7 @@ const ContactUs = () => {
               id="subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
-              className="mt-1 block w-full bg-transparent border border-gray-300 dark:border-dark-border rounded-md shadow-sm p-2 dark:text-dark-text focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
             />
             {errors.subject && (
               <p className="text-red-600 text-sm mt-1">{errors.subject}</p>
@@ -104,7 +122,7 @@ const ContactUs = () => {
           <div>
             <label
               htmlFor="message"
-              className="block text-sm font-medium text-gray-700 dark:text-dark-text"
+              className="block text-sm font-medium text-gray-700"
             >
               Message
             </label>
@@ -113,7 +131,7 @@ const ContactUs = () => {
               rows="4"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2  focus:ring-primary-500 focus:border-primary-500"
+              className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
             ></textarea>
             {errors.message && (
               <p className="text-red-600 text-sm mt-1">{errors.message}</p>

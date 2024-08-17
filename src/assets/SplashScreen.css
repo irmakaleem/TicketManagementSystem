@@ -6,6 +6,7 @@
 
 body,
 html {
+  overflow-x: hidden;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -13,8 +14,9 @@ html {
 }
 
 .container1 {
-  /* pta nhi kia kiya wa hai bhai merne nhi kia ye wala */
   position: relative;
+  height: 100vh;
+  width: 100vw;
   background-color: #0069a2;
   z-index: 10; /* Ensure it's above .heading */
   animation: moveWrapper 1.3s ease-in-out forwards;

@@ -1,18 +1,53 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 const ComplainTable = () => {
+  const [selectedStatus, setSelectedStatus] = useState('TotalComplaints');
+  const [tickets, setTickets] = useState([]);
+  const userId = localStorage.getItem('userId'); // Replace this with dynamic userId
+
+  useEffect(() => {
+    const statusIds = {
+      TotalComplaints: 0,  // This will fetch all tickets
+      OpenComplaints: 6,
+      ClosedComplaints: 2,
+      DroppedComplaints: 4,
+      ResolvedComplaints: 5,
+      PendingComplaints: 3
+    };
+
+    const fetchTickets = async () => {
+      try {
+        const statusId = statusIds[selectedStatus];
+        const response = await axios.get(`http://localhost:5044/api/UserDashboard/tickets/${userId}/${statusId}`);
+        setTickets(response.data);
+      } catch (error) {
+        console.error("Error fetching tickets", error);
+      }
+    };
+
+    fetchTickets();
+  }, [selectedStatus]);
+
+  const handleChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
   return (
     <div className="flex justify-center items-start flex-col bg-white rounded-lg m-4 p-4">
       <div className="flex gap-3">
         <select
           className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-          id="cpmplain"
+          id="complain"
+          onChange={handleChange}
+          value={selectedStatus}
         >
           <option value="TotalComplaints">Total Complaints</option>
           <option value="OpenComplaints">Open Complaints</option>
           <option value="ClosedComplaints">Closed Complaints</option>
           <option value="DroppedComplaints">Dropped Complaints</option>
-          <option value="ResovledComplaints">Resovled Complaints</option>
+          <option value="ResolvedComplaints">Resolved Complaints</option>
           <option value="PendingComplaints">Pending Complaints</option>
         </select>
         <Link
@@ -28,71 +63,41 @@ const ComplainTable = () => {
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Sno
+                t_id
               </th>
               <th scope="col" className="px-6 py-3">
-                Requester
+                t_title
               </th>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Assigned to
+                s_id
               </th>
               <th scope="col" className="px-6 py-3">
-                Due Date
+                DateTime
               </th>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Status
+                Lvlid
               </th>
               <th scope="col" className="px-6 py-3">
-                Created Date
+                UId
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              ></th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800"></td>
-              <td className="px-6 py-4"></td>
-            </tr>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              ></th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800"></td>
-              <td className="px-6 py-4"></td>
-            </tr>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              ></th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800"></td>
-              <td className="px-6 py-4"></td>
-            </tr>
-            <tr className="border-b border-gray-200 dark:border-gray-700">
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              ></th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800"></td>
-              <td className="px-6 py-4"></td>
-            </tr>
-            <tr>
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              ></th>
-              <td className="px-6 py-4"></td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800"></td>
-              <td className="px-6 py-4"></td>
-            </tr>
+            {tickets.map((ticket) => (
+              <tr key={ticket.tId} className="border-b border-gray-200 dark:border-gray-700">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
+                >
+                  {ticket.tId}
+                </th>
+                <td className="px-6 py-4">{ticket.tTitle}</td>
+                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{ticket.sId}</td>
+                <td className="px-6 py-4">{ticket.dateTime}</td>
+                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{ticket.lvlid}</td>
+                <td className="px-6 py-4">{ticket.uId}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

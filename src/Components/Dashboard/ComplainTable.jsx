@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Link, useLocation } from 'react-router-dom';
 
 const ComplainTable = () => {
-  const [selectedStatus, setSelectedStatus] = useState('TotalComplaints');
+  const location = useLocation();
+  const [selectedStatus, setSelectedStatus] = useState(
+    location.state?.selectedStatus || 'TotalComplaints'
+  );
   const [tickets, setTickets] = useState([]);
   const userId = localStorage.getItem('userId'); // Replace this with dynamic userId
 
   useEffect(() => {
     const statusIds = {
-      TotalComplaints: 0,  // This will fetch all tickets
+      TotalComplaints: 0, // This will fetch all tickets
       OpenComplaints: 6,
       ClosedComplaints: 2,
       DroppedComplaints: 4,
       ResolvedComplaints: 5,
-      PendingComplaints: 3
+      PendingComplaints: 3,
     };
 
     const fetchTickets = async () => {
       try {
         const statusId = statusIds[selectedStatus];
-        const response = await axios.get(`http://localhost:5044/api/UserDashboard/tickets/${userId}/${statusId}`);
+        const response = await axios.get(
+          `http://localhost:5044/api/UserDashboard/tickets/${userId}/${statusId}`
+        );
         setTickets(response.data);
       } catch (error) {
-        console.error("Error fetching tickets", error);
+        console.error('Error fetching tickets', error);
       }
     };
 
@@ -84,7 +89,10 @@ const ComplainTable = () => {
           </thead>
           <tbody>
             {tickets.map((ticket) => (
-              <tr key={ticket.tId} className="border-b border-gray-200 dark:border-gray-700">
+              <tr
+                key={ticket.tId}
+                className="border-b border-gray-200 dark:border-gray-700"
+              >
                 <th
                   scope="row"
                   className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"

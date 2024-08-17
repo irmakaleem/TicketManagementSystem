@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-
 const Test = () => {
   const [name, setName] = useState("irma");
   const [age, setAge] = useState(25);
-  const changename = name === "irma" ? "umer" : "irma";
+  const changename = name === "irma" ? "hehe" : "irma";
   const [object, setObject] = useState([
     { name: "irma", age: 20 },
-    { name: "umer", age: 23 },
+    { name: "hehe", age: 23 },
   ]);
   return (
     <>

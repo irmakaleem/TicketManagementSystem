@@ -2,13 +2,13 @@ import React from "react";
 import Header from "./Header";
 import LeftSidebar from "./LeftSidebar";
 // import RightSidebar from "./RightSidebar";
-// import DashboardContact from "./DashboardContact";
 import ContactUs from "./ContactUs";
 import { FeedBack } from "./FeedBack";
 import { Route, Routes } from "react-router-dom";
 import Complaint from "./Complaint";
 import ComplainTable from "./ComplainTable";
 import NewComplaint from "./NewComplaint";
+import AccountDetails from "./AccountDetails";
 
 const DashboardMain = () => {
   return (
@@ -31,6 +31,7 @@ const DashboardMain = () => {
           <Route path="/feedback" element={<FeedBack />} />
           <Route path="/complaint" element={<ComplainTable />} />
           <Route path="/new-complaint" element={<NewComplaint />} />
+          <Route path="/account" element={<AccountDetails />} />
 
           {/* <Route path="/contact" element={<DashboardContact />} /> */}
         </Routes>

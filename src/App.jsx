@@ -8,6 +8,7 @@ import { SignUp } from "./Components/SignUp";
 // import { FeedBack } from "./Components/FeedBack";
 import DashboardMain from "./Components/Dashboard/DashboardMain";
 import Test from "./Components/Test";
+import MainDashboard from "./Components/AdminDashboard/MainDashboard";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         {/* <Route path="/feedback" element={<FeedBack />} /> */}
         {/* /dashboard/* ka mtlb /dashboard may jitne bhi sub routes hon wo bhi render hon agr /* ye nhi lagata aage to sub routes kaam nhi krte */}
         <Route path="/dashboard/*" element={<DashboardMain />} />
+        <Route path="/admin/*" element={<MainDashboard />} />
       </Routes>
     </Router>
   );

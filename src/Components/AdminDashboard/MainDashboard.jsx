@@ -1,10 +1,17 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 
 import DeleteComplaint from "./DeleteComplaint";
 import Header from "../Dashboard/Header";
 import LeftSidebar from "../Dashboard/LeftSidebar";
 const MainDashboard = () => {
+  const Location = useLocation();
+
+  useEffect(() => {
+    if (Location.pathname.includes("/admin")) {
+      document.body.classList.add("bg-body-light");
+    }
+  }, []);
   return (
     <>
       <div className="grid grid-cols-12 bg-body-light ">

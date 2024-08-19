@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { Link, useLocation } from "react-router-dom";
 
-const ComplainTable = () => {
-  const location = useLocation();
-  const [selectedStatus, setSelectedStatus] = useState(
-    location.state?.selectedStatus || 'TotalComplaints'
-  );
+//props define
+const ComplainTable = ({ selectedStatus, setSelectedStatus }) => {
+  // const location = useLocation();
+
   const [tickets, setTickets] = useState([]);
-  const userId = localStorage.getItem('userId'); // Replace this with dynamic userId
+  const userId = localStorage.getItem("userId"); // Replace this with dynamic userId
 
   useEffect(() => {
     const statusIds = {
@@ -28,16 +27,12 @@ const ComplainTable = () => {
         );
         setTickets(response.data);
       } catch (error) {
-        console.error('Error fetching tickets', error);
+        console.error("Error fetching tickets", error);
       }
     };
 
     fetchTickets();
   }, [selectedStatus]);
-
-  const handleChange = (event) => {
-    setSelectedStatus(event.target.value);
-  };
 
   return (
     <div className="flex justify-center items-start flex-col bg-white rounded-lg m-4 p-4">
@@ -45,9 +40,13 @@ const ComplainTable = () => {
         <select
           className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
           id="complain"
-          onChange={handleChange}
+          //here we are calling handlechange
+          onChange={(e) => setSelectedStatus(e.target.value)}
+          // here we are using our state through using state name becaues whenever user click on any option its value will save in state and we can see that selected value
           value={selectedStatus}
         >
+          <option value="">Select Complaint</option>
+
           <option value="TotalComplaints">Total Complaints</option>
           <option value="OpenComplaints">Open Complaints</option>
           <option value="ClosedComplaints">Closed Complaints</option>
@@ -100,9 +99,13 @@ const ComplainTable = () => {
                   {ticket.tId}
                 </th>
                 <td className="px-6 py-4">{ticket.tTitle}</td>
-                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{ticket.sId}</td>
+                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                  {ticket.sId}
+                </td>
                 <td className="px-6 py-4">{ticket.dateTime}</td>
-                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">{ticket.lvlid}</td>
+                <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
+                  {ticket.lvlid}
+                </td>
                 <td className="px-6 py-4">{ticket.uId}</td>
               </tr>
             ))}

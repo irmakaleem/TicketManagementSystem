@@ -17,12 +17,6 @@ export const SignUp = () => {
   });
 
   //
-  const token = localStorage.getItem("token");
-  useEffect(() => {
-    if (token) {
-      navigate("/dashboard");
-    }
-  }, [token]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {

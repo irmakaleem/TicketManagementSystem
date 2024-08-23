@@ -1,39 +1,56 @@
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const navigate = useNavigate();
+
+  const [loginFormFields, setLoginFormFields] = useState({
+    email: "",
+    password: "",
+  });
+  //[ ] useEffect dependencies if this is empty then it will run only once, useEffect use for sideEffects, for one time use of useEffect (only at the time of page reload) then we use an empty dependency array [],
+  //
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (token) {
+      navigate("/dashboard");
+    }
+  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5044/api/test/login', { email, password });
-      if (response.data.message === 'Login successful.') {
+      const response = await axios.post(
+        "https://localhost:44383/api/LoginForm",
+        loginFormFields
+      );
+      if (response.data.message === "Login successful.") {
         const role = response.data.role;
+        const token = response.data.token;
+
         const userId = response.data.userId;
-        localStorage.setItem('userId', userId); // Store the user ID in local storage
-        if (role === 'user') {
-          navigate('/dashboard');
-        } else if (role === 'admin') {
-          navigate('/admindashboard');
+        localStorage.setItem("userId", userId); // Store the user ID in local storage
+        localStorage.setItem("token", token); // Store the user role in local storage
+        if (role === "user") {
+          navigate("/dashboard");
+        } else if (role === "admin") {
+          navigate("/admin");
         }
       } else {
-        alert('Invalid email or password');
+        alert("Invalid email or password");
       }
     } catch (error) {
-      console.error('Error logging in', error);
-      alert('Error logging in');
+      console.error("Error logging in", error);
+      alert("Error logging in");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex items-center justify-center h-screen overflow-hidden">
-        <div className="relative flex flex-col m-6 space-y-8 bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0">
+        <div className="relative flex flex-col m-6  bg-white shadow-2xl rounded-2xl md:flex-row md:space-y-0">
           {/* left side */}
           <div className="flex flex-col justify-center p-8 md:p-14">
             <span className="mb-3 text-4xl font-bold">Login Here</span>
@@ -45,7 +62,13 @@ export const Login = () => {
                 type="text"
                 className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
                 name="email"
-                onChange={(e) => setEmail(e.target.value)}
+                value={loginFormFields.email}
+                onChange={(e) =>
+                  setLoginFormFields((prevFields) => ({
+                    ...prevFields,
+                    email: e.target.value,
+                  }))
+                }
                 id="email"
                 required
               />
@@ -58,7 +81,13 @@ export const Login = () => {
                 type="password"
                 name="pass"
                 id="pass"
-                onChange={(e) => setPassword(e.target.value)}
+                value={loginFormFields.password}
+                onChange={(e) =>
+                  setLoginFormFields((prevFields) => ({
+                    ...prevFields,
+                    password: e.target.value,
+                  }))
+                }
                 className="w-full p-2 border border-gray-300 rounded-md placeholder:font-light placeholder:text-gray-500"
                 required
               />
@@ -72,7 +101,10 @@ export const Login = () => {
                 Forgot password
               </span>
             </div>
-            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-lg mb-6 hover:text-white hover:border">
+            <button
+              type="submit"
+              className="w-full bg-blue-500 hover:bg-blue-700 text-white p-2 rounded-lg mb-6 hover:text-white hover:border"
+            >
               Sign in
             </button>
             <div className="text-center text-gray-400">

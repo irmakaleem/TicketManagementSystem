@@ -56,7 +56,7 @@ const ComplainTable = ({ selectedStatus, setSelectedStatus }) => {
         </select>
         <Link
           to="/dashboard/new-complaint"
-          className="cursor-pointer bg-blue-500 text-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#4a89ff] hover:text-blue h-9 rounded-md px-3"
+          className="cursor-pointer bg-blue-500 text-white relative inline-flex items-center justify-center gap-2 rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-[#4a89ff] hover:text-blue h-9 px-3"
         >
           New Complaint
         </Link>
@@ -67,22 +67,22 @@ const ComplainTable = ({ selectedStatus, setSelectedStatus }) => {
           <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                t_id
+                Complain id
               </th>
               <th scope="col" className="px-6 py-3">
-                t_title
+                Subject
               </th>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                s_id
+                Assigned to
               </th>
               <th scope="col" className="px-6 py-3">
-                DateTime
+                Start Date
               </th>
               <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Lvlid
+                End Date
               </th>
               <th scope="col" className="px-6 py-3">
-                UId
+                Status
               </th>
             </tr>
           </thead>

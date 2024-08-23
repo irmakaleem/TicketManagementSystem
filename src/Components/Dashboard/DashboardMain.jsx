@@ -10,6 +10,7 @@ import Complaint from "./Complaint";
 import ComplainTable from "./ComplainTable";
 import NewComplaint from "./NewComplaint";
 import AccountDetails from "./AccountDetails";
+import TicketPage from "./TicketPage";
 
 const DashboardMain = () => {
   const Location = useLocation();
@@ -56,6 +57,7 @@ const DashboardMain = () => {
           />
           <Route path="/new-complaint" element={<NewComplaint />} />
           <Route path="/account" element={<AccountDetails />} />
+          <Route path="/ticketpage" element={<TicketPage />} />
 
           {/* <Route path="/contact" element={<DashboardContact />} /> */}
         </Routes>

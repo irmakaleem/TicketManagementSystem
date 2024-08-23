@@ -1,5 +1,7 @@
+import axios from "axios";
 import React, { useState } from "react";
-import ReactQuill from "react-quill";
+import ReactQuill, { Quill } from "react-quill";
+
 import "react-quill/dist/quill.snow.css";
 
 const NewComplaint = () => {
@@ -23,7 +25,6 @@ const DataForm = () => {
     subDepartment: "",
     fullName: "",
     email: "",
-    password: "",
     location: "",
     phone: "",
     designation: "",
@@ -37,16 +38,7 @@ const DataForm = () => {
   const regexPatterns = {
     fullName: /^[a-zA-Z\s]+$/, // Only letters and spaces
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, // Basic email pattern
-    phone: /^\(\+\d{2,3}\)\d{1,3}\s\d{2,3}\s\d{2,3}\s\d{2,3}$/, // E.g., (+33)7 55 55 33 70
-  };
-
-  // Handle input changes
-  const handleInputChange = (e) => {
-    const { id, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [id]: value,
-    }));
+    phone: /^[0-9]{9}$/, // E.g., (+33)7 55 55 33 70
   };
 
   // Validate inputs using regex
@@ -59,7 +51,7 @@ const DataForm = () => {
       newErrors.email = "Invalid email address";
     }
     if (!regexPatterns.phone.test(formData.phone)) {
-      newErrors.phone = "Invalid phone format, use: (+33)7 55 55 33 70";
+      newErrors.phone = "Invalid phone format, use: 9 digits";
     }
 
     setErrors(newErrors);
@@ -67,24 +59,65 @@ const DataForm = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
       console.log("Form Data Submitted:", { ...formData, complaintDetail });
-      // Reset form
-      setFormData({
-        department: "",
-        subDepartment: "",
-        fullName: "",
-        email: "",
-        password: "",
-        location: "",
-        phone: "",
-        designation: "",
-        description: "",
-      });
+      try {
+        // /api/contactform this is an endpoint for an api
+        const response = await axios.post(
+          "https://localhost:44383/api/newcomplaint",
+          formData
+        );
+
+        // Clear form fields and errors after successful submission
+        if (response.status === 201) {
+          alert("Form submitted successfully");
+          // hume har new complaint ki id kahin pr save krwani hogy mtlb application may agr hum state use krengay srf to , state refresh hone pr initial value banjati hai mtlb agr state update bhi hui hogy to bhi wo hatjaegy new value or initial value ajaegy,smjhi? han to hume localstorgay istemal krna hoga kunke usme values refresh hone pr brwoser band hone pr bhi save rehtin
+
+          // jesi ye form submit hoga to hamare pass yaad ho tumhe response.data may saari details arhi thin?
+          setFormData({
+            department: "",
+            subDepartment: "",
+            fullName: "",
+            email: "",
+
+            location: "",
+            phone: "",
+            designation: "",
+            description: "",
+          });
+        } else {
+          alert("Error submitting form");
+        }
+      } catch (error) {
+        console.log(error);
+      }
       setComplaintDetail("");
     }
+  };
+
+  const selectDepartments = {
+    "IT Department": ["Slow Internet", "Server Down", "Resource"],
+    "HR Department": [
+      "Leave Request",
+      "Employee Grievance",
+      "Employee Benefits",
+    ],
+    "Finance Department": ["Payment Issues", "Expense Claims", "Budgeting"],
+    "Security Department": [
+      "Security Breach",
+      "Access Control",
+      "Security Cameras",
+    ],
+    "DG Department": ["Facilities Maintenance", "Equipment Issues", "Parking"],
+  };
+
+  const handleQuillChange = (content, delta, source, editor) => {
+    setFormData((prevFields) => ({
+      ...prevFields,
+      description: content, // Or you can use content (HTML string) if preferred
+    }));
   };
 
   return (
@@ -107,7 +140,12 @@ const DataForm = () => {
                   id="department"
                   className="form-input"
                   value={formData.department}
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    setFormData((prevFields) => ({
+                      ...prevFields,
+                      department: e.target.value,
+                    }))
+                  }
                   required
                 >
                   <option value="" disabled>
@@ -117,9 +155,8 @@ const DataForm = () => {
                   <option value="DG Department">DG Department</option>
                   <option value="Finance Department">Finance Department</option>
                   <option value="HR Department">HR Department</option>
-                  <option value="Tax Department">Tax Department</option>
-                  <option value="Business Department">
-                    Business Department
+                  <option value="Security Department">
+                    Security Department
                   </option>
                 </select>
               </div>
@@ -131,20 +168,23 @@ const DataForm = () => {
                   id="subDepartment"
                   className="form-input"
                   value={formData.subDepartment}
-                  onChange={handleInputChange}
+                  onChange={(e) =>
+                    setFormData((prevFields) => ({
+                      ...prevFields,
+                      subDepartment: e.target.value,
+                    }))
+                  }
                   required
                 >
                   <option value="" disabled>
                     Select a Sub-Department
                   </option>
-                  <option value="IT Department">IT Department</option>
-                  <option value="DG Department">DG Department</option>
-                  <option value="Finance Department">Finance Department</option>
-                  <option value="HR Department">HR Department</option>
-                  <option value="Tax Department">Tax Department</option>
-                  <option value="Business Department">
-                    Business Department
-                  </option>
+                  {selectDepartments[formData.department]?.length > 0 &&
+                    selectDepartments[formData.department].map((option) => (
+                      <option value={option} key={option}>
+                        {option}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -161,7 +201,12 @@ const DataForm = () => {
               className="form-input"
               placeholder="Savannah Nguyen"
               value={formData.fullName}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData((prevFields) => ({
+                  ...prevFields,
+                  fullName: e.target.value,
+                }))
+              }
               autoComplete="off"
               required
             />
@@ -179,28 +224,18 @@ const DataForm = () => {
               className="form-input"
               placeholder="martinahernandezc@gmail.com"
               value={formData.email}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData((prevFields) => ({
+                  ...prevFields,
+                  email: e.target.value,
+                }))
+              }
               autoComplete="off"
               required
             />
             {errors.email && (
               <p className="text-red-600 text-sm mt-1">{errors.email}</p>
             )}
-          </div>
-          <div className="w-full mb-4">
-            <label htmlFor="password" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              className="form-input"
-              placeholder="**********"
-              value={formData.password}
-              onChange={handleInputChange}
-              autoComplete="off"
-              required
-            />
           </div>
 
           <div className="flex lg:flex-row flex-col gap-x-4 mb-2">
@@ -214,7 +249,12 @@ const DataForm = () => {
                 className="form-input"
                 placeholder="6391 Elgin St. Celina, Delaware 10299"
                 value={formData.location}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setFormData((prevFields) => ({
+                    ...prevFields,
+                    location: e.target.value,
+                  }))
+                }
                 autoComplete="off"
                 required
               />
@@ -224,12 +264,17 @@ const DataForm = () => {
                 Phone
               </label>
               <input
-                type="tel"
+                type="number"
                 id="phone"
                 className="form-input"
                 placeholder="(+33)7 55 55 33 70"
                 value={formData.phone}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setFormData((prevFields) => ({
+                    ...prevFields,
+                    phone: e.target.value,
+                  }))
+                }
                 autoComplete="off"
                 required
               />
@@ -247,22 +292,30 @@ const DataForm = () => {
                 className="form-input"
                 placeholder="Assistant Manager"
                 value={formData.designation}
-                onChange={handleInputChange}
+                onChange={(e) =>
+                  setFormData((prevFields) => ({
+                    ...prevFields,
+                    designation: e.target.value,
+                  }))
+                }
                 autoComplete="off"
                 required
               />
             </div>
           </div>
 
-          <div className="mb-6">
+          <div className="w-full mb-4">
+            <label htmlFor="description" className="form-label">
+              Description
+            </label>
             <ReactQuill
               theme="snow"
-              value={complaintDetail}
-              onChange={setComplaintDetail}
+              value={formData.description}
+              onChange={handleQuillChange}
             />
           </div>
 
-          {/* Description Box */}
+          {/* Description Box
           <div className="w-full mb-4">
             <label htmlFor="description" className="form-label">
               Description
@@ -273,9 +326,14 @@ const DataForm = () => {
               placeholder="Enter a Complaint in Detail (Optional)"
               rows="4"
               value={formData.description}
-              onChange={handleInputChange}
+              onChange={(e) =>
+                setFormData((prevFields) => ({
+                  ...prevFields,
+                  description: e.target.value,
+                }))
+              }
             />
-          </div>
+          </div> */}
           <button
             type="submit"
             className="btn b-solid bg-blue-500 px-5 cursor-pointer text-white"

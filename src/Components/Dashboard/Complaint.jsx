@@ -12,6 +12,13 @@ const Complaint = ({ setSelectedStatus }) => {
     droppedComplaints: 0,
     resolvedComplaints: 0,
   });
+  //
+  const token = localStorage.getItem("token");
+  useEffect(() => {
+    if (!token) {
+      navigate("/login");
+    }
+  }, [token]);
 
   const navigate = useNavigate();
 
@@ -20,9 +27,7 @@ const Complaint = ({ setSelectedStatus }) => {
       const userId = localStorage.getItem("userId");
       console.log("Fetching complaint counts for user ID:", userId);
       try {
-        // is url ka puchra tha banalya unhone
-        // /UserDashboard/complaints ye api endpoint hota,achaa
-        // api nhi chalegy project lena parega backend wala with db, zip?
+        // /UserDashboard/complaints ye api endpoint hota
         const response = await axios.get(
           `http://localhost:5044/api/UserDashboard/complaints/${userId}`
         );
@@ -85,7 +90,6 @@ const Complaint = ({ setSelectedStatus }) => {
   return (
     <div className="flex justify-center items-start bg-white rounded-lg m-4">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {/* ye map banadya hai ab or map nhi banana bas array of objects may add krna hain objects */}
         {complainBoxes.map((box) => (
           <ComplaintBox
             number={box.number}

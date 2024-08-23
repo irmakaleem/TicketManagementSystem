@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,6 +21,19 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
+        {/* 
+        {token ? null : (
+          <>
+            <Route
+              path="/login"
+              element={<Login setToken={setToken} token={token} />}
+            />
+            <Route
+              path="/signup"
+              element={<SignUp setToken={setToken} token={token} />}
+            />
+          </>
+        )} */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/test" element={<Test />} />

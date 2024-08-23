@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const ContactUs = () => {
@@ -7,6 +8,13 @@ const ContactUs = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
 
+  //here i make a single state for all input fields
+  const [formFields, setFormFields] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
   // State variable for form validation errors
   const [errors, setErrors] = useState({});
 
@@ -15,17 +23,17 @@ const ContactUs = () => {
     const errors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Regex for validating email addresses
     const nameRegex = /^[a-zA-Z\s]+$/; // Regex for validating names (only letters and spaces)
-
-    if (!nameRegex.test(name)) {
+    //here i call with the state variable formFields.name
+    if (!nameRegex.test(formFields.name)) {
       errors.name = "Name can only contain letters and spaces";
     }
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(formFields.email)) {
       errors.email = "Invalid email address";
     }
-    if (!subject) {
+    if (!formFields.subject) {
       errors.subject = "Subject is required";
     }
-    if (!message) {
+    if (!formFields.message) {
       errors.message = "Message is required";
     }
 
@@ -33,19 +41,32 @@ const ContactUs = () => {
   };
 
   // Form submission handler
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the form from submitting the traditional way
     const validationErrors = validate(); // Perform validation
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors); // Set errors if validation fails
     } else {
       // Simulate form submission (replace this with an actual API call)
-      console.log("Form submitted with data:", {
-        name,
-        email,
-        subject,
-        message,
-      });
+      //we use try catch for api, exception handling
+      try {
+        // /api/contactform this is an endpoint for an api
+        const response = await axios.post(
+          "https://localhost:44383/api/contactform",
+          formFields
+        );
+        //here the response will print successful not successful
+        console.log(response);
+        // Clear form fields and errors after successful submission
+        if (response.status === 201) {
+          alert("Form submitted successfully");
+          setFormFields({ name: "", email: "", subject: "", message: "" });
+        } else {
+          alert("Error submitting form");
+        }
+      } catch (error) {
+        console.log(error);
+      }
 
       // Clear form fields and errors after submission
       setName("");
@@ -55,6 +76,20 @@ const ContactUs = () => {
       setErrors({});
     }
   };
+  // setTimeout is a function in which we call a callback function (arrow function)
+  // setTimeout(()=>{})
+  // () these brackets dont require a return keyword
+  // {} these brackets require a return keyword
+  // callback function in setter method of state requires a parameter
+  // convention for naming the parameter is using prev word
+  // setFormFields((prevFields)=>({ name: e.target.value,...prevFields }))
+  // prevFields = {
+  // name: "asdas",
+  // email: "hgjkhjk",
+  // subject: "",
+  // message: "",
+  // }
+  //
 
   return (
     <div className="flex justify-center items-start bg-gray-100 m-4">
@@ -74,8 +109,15 @@ const ContactUs = () => {
               <input
                 type="text"
                 id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                name="name"
+                value={formFields.name}
+                //
+                onChange={(e) =>
+                  setFormFields((prevFields) => ({
+                    ...prevFields,
+                    name: e.target.value,
+                  }))
+                }
                 className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
               />
               {errors.name && (
@@ -92,8 +134,14 @@ const ContactUs = () => {
               <input
                 type="email"
                 id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={formFields.email}
+                // firstly we call ...prevfield, these spread operators are used for destructure the object so we use ...
+                onChange={(e) =>
+                  setFormFields((prevFields) => ({
+                    ...prevFields,
+                    email: e.target.value,
+                  }))
+                }
                 className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
               />
               {errors.email && (
@@ -111,8 +159,13 @@ const ContactUs = () => {
             <input
               type="text"
               id="subject"
-              value={subject}
-              onChange={(e) => setSubject(e.target.value)}
+              value={formFields.subject}
+              onChange={(e) =>
+                setFormFields((prevFields) => ({
+                  ...prevFields,
+                  subject: e.target.value,
+                }))
+              }
               className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
             />
             {errors.subject && (
@@ -129,8 +182,13 @@ const ContactUs = () => {
             <textarea
               id="message"
               rows="4"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
+              value={formFields.message}
+              onChange={(e) =>
+                setFormFields((prevFields) => ({
+                  ...prevFields,
+                  message: e.target.value,
+                }))
+              }
               className="mt-1 block w-full bg-transparent border border-gray-300 rounded-md shadow-sm p-2 focus:ring-primary-500 focus:border-primary-500"
             ></textarea>
             {errors.message && (

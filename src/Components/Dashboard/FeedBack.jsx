@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import axios from "axios";
 // FeedbackCard Component
 const FeedbackCard = ({
   mainQuestion,
@@ -71,11 +71,37 @@ export const FeedBack = () => {
   };
 
   // Handle form submission
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // Example: log the feedback to the console
     console.log("Submitted Feedback:", feedback);
 
     // Here, you can add code to send the feedback to an API endpoint
+    // this is the formData which matches the fields of model defined in .net
+    const formData = {
+      Question1: feedback[0].selectedOption,
+      Question2: feedback[1].selectedOption,
+      Question3: feedback[2].selectedOption,
+      Question4: feedback[3].selectedOption,
+      Question5: feedback[4].selectedOption,
+      Question6: feedback[5].selectedOption,
+      NewComplaintId: localStorage.getItem("complaintId"),
+    };
+    try {
+      const response = await axios.post(
+        "https://localhost:44383/api/Feedback",
+        feedback
+      );
+      //here the response will print successful not successful
+      console.log(response);
+      // Clear form fields and errors after successful submission
+      if (response.status === 201) {
+        alert("Form submitted successfully");
+      } else {
+        alert("Error submitting form");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const questions = [

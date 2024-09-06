@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { hostlink } from "../../../../Utils/HostLink";
 // FeedbackCard Component
 const FeedbackCard = ({
   mainQuestion,
@@ -73,7 +74,6 @@ export const FeedBack = () => {
   // Handle form submission
   const handleSubmit = async () => {
     // Example: log the feedback to the console
-    console.log("Submitted Feedback:", feedback);
 
     // Here, you can add code to send the feedback to an API endpoint
     // this is the formData which matches the fields of model defined in .net
@@ -87,12 +87,8 @@ export const FeedBack = () => {
       NewComplaintId: localStorage.getItem("complaintId"),
     };
     try {
-      const response = await axios.post(
-        "https://localhost:44383/api/Feedback",
-        feedback
-      );
+      const response = await axios.post(`${hostlink}/api/Feedback`, feedback);
       //here the response will print successful not successful
-      console.log(response);
       // Clear form fields and errors after successful submission
       if (response.status === 201) {
         alert("Form submitted successfully");
@@ -100,7 +96,7 @@ export const FeedBack = () => {
         alert("Error submitting form");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

@@ -6,14 +6,11 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import { SplashScreen } from "./Components/SplashScreen";
-import { Login } from "./Components/Login";
-import { SignUp } from "./Components/SignUp";
-// import { Contact } from "./Components/Contact"; // Use named import
-// import { FeedBack } from "./Components/FeedBack";
+import { SplashScreen } from "./Components/Global/SplashScreen";
+import { Login } from "./Authentication/Login";
+import { SignUp } from "./Authentication/SignUp";
 import DashboardMain from "./Components/Dashboard/DashboardMain";
-import Test from "./Components/Test";
-import MainDashboard from "./Components/AdminDashboard/MainDashboard";
+import Test from "./Components/Global/Test";
 
 function App() {
   return (
@@ -21,28 +18,16 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<SplashScreen />} />
-        {/* 
-        {token ? null : (
-          <>
-            <Route
-              path="/login"
-              element={<Login setToken={setToken} token={token} />}
-            />
-            <Route
-              path="/signup"
-              element={<SignUp setToken={setToken} token={token} />}
-            />
-          </>
-        )} */}
+
         <Route path="/login" element={<Login />} />
+        {/* Route for user signup */}
         <Route path="/signup" element={<SignUp />} />
+        {/* Route for admin signup */}
+        <Route path="/admin-signup" element={<SignUp />} />
         <Route path="/test" element={<Test />} />
 
-        {/* <Route path="/contact" element={<Contact />} /> */}
-        {/* <Route path="/feedback" element={<FeedBack />} /> */}
         {/* /dashboard/* ka mtlb /dashboard may jitne bhi sub routes hon wo bhi render hon agr /* ye nhi lagata aage to sub routes kaam nhi krte */}
         <Route path="/dashboard/*" element={<DashboardMain />} />
-        <Route path="/admin/*" element={<MainDashboard />} />
       </Routes>
     </Router>
   );

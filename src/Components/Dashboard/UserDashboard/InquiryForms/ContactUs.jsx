@@ -1,13 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { hostlink } from "../../../../Utils/HostLink";
 
 const ContactUs = () => {
-  // State variables for the form fields
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-
   //here i make a single state for all input fields
   const [formFields, setFormFields] = useState({
     name: "",
@@ -52,11 +47,10 @@ const ContactUs = () => {
       try {
         // /api/contactform this is an endpoint for an api
         const response = await axios.post(
-          "https://localhost:44383/api/contactform",
+          `${hostlink}/api/contactform`,
           formFields
         );
         //here the response will print successful not successful
-        console.log(response);
         // Clear form fields and errors after successful submission
         if (response.status === 201) {
           alert("Form submitted successfully");
@@ -65,7 +59,7 @@ const ContactUs = () => {
           alert("Error submitting form");
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
 
       // Clear form fields and errors after submission

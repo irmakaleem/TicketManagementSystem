@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 const LeftSidebar = () => {
   const location = useLocation();
   const [adminRole, setAdminrole] = useState(
@@ -202,6 +202,13 @@ const LeftSidebar = () => {
     },
   ];
 
+  const navigate = useNavigate();
+  const handleLogOut = () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   return (
     <>
       <div
@@ -250,7 +257,7 @@ const LeftSidebar = () => {
                       {" "}
                       <NavLink
                         to={liItem.link}
-                        className="flex items-center space-x-2"
+                        className="flex items-center gap-3 p-3 hover:bg-blue-600 hover:text-white rounded-md"
                       >
                         {liItem.svg}
                         <span>{liItem.name}</span>
@@ -262,9 +269,9 @@ const LeftSidebar = () => {
         </div>
 
         <div className="mt-auto px-7 py-6 group-data-[sidebar-size=sm]:px-2">
-          <a
-            href="../login"
-            className="flex-center-between text-gray-500 dark:text-dark-text font-semibold leading-none bg-gray-200 dark:bg-[#090927] dark:group-data-[sidebar-size=sm]:bg-dark-card-shade rounded-[10px] px-6 py-4 group-data-[sidebar-size=sm]:p-[12px_8px] group-data-[sidebar-size=sm]:justify-center"
+          <button
+            onClick={handleLogOut}
+            className="flex-center-between text-gray-500 dark:text-dark-text font-semibold leading-none bg-gray-200 dark:bg-[#090927] dark:group-data-[sidebar-size=sm]:bg-dark-card-shade rounded-[10px] px-6 py-4 group-data-[sidebar-size=sm]:p-[12px_8px] group-data-[sidebar-size=sm]:justify-center gap-2"
           >
             <span className="group-data-[sidebar-size=sm]:hidden block">
               Logout
@@ -281,7 +288,7 @@ const LeftSidebar = () => {
                 fill="currentColor"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </div>
     </>

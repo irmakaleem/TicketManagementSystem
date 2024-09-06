@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../assets/SplashScreen.css";
+import "../../assets/SplashScreen.css";
 export const SplashScreen = () => {
   return (
     <div>

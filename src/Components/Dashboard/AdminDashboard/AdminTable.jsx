@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 const AdminTable = () => {
   const [SearchFilterDropdowns, setSearchFilterDropdowns] = useState({
     severityLevel: "",
-    // priorityLevel: "",
     status: "",
     department: "",
   });
@@ -36,26 +35,6 @@ const AdminTable = () => {
               <option value="4">SEV 4: Low</option>
               <option value="5">SEV 5: Informational</option>
             </select>
-
-            {/* <select
-              className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-              id="priority"
-              value={SearchFilterDropdowns.priorityLevel}
-              onChange={(e) =>
-                setSearchFilterDropdowns((prevFields) => ({
-                  ...prevFields,
-                  priorityLevel: e.target.value,
-                }))
-              }
-            >
-              <option value="" disabled>
-                Select Priority Level
-              </option>
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
-              <option value="critical">Critical</option>
-            </select> */}
 
             <select
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"

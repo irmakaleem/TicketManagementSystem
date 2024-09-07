@@ -15,6 +15,8 @@ import TicketPage from "./UserDashboard/UserComplaints/TicketPage";
 import { verifyTokenExpiry } from "../../Utils/verifyTokenExpiry";
 import PageTransition from "../../Animations/PageTransition";
 import AdminTable from "./AdminDashboard/AdminTable";
+import AdminTicketpage from "./AdminDashboard/AdminTicketpage";
+import SeverityLvl from "./AdminDashboard/SeverityLvl";
 
 const DashboardMain = () => {
   const Location = useLocation();
@@ -58,6 +60,8 @@ const DashboardMain = () => {
                   //i am passing setter method of selectedStatus state in props of complaint component (props defined in complaint component)
                   element={<AdminTable />}
                 />
+                <Route path="/adminticket" element={<AdminTicketpage />} />
+                <Route path="/severitylvl" element={<SeverityLvl />} />
               </>
             ) : (
               <>

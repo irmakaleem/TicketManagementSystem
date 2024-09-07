@@ -49,12 +49,11 @@ const DataForm = ({ ticket }) => {
     subDepartment: 1002,
     fullName: savedLocalStorageLoggedInUserData.fullName,
     email: savedLocalStorageLoggedInUserData.email,
-    location: "",
-    phone: savedLocalStorageLoggedInUserData.mobileNo,
     designation: "",
     description: "",
     // ye stringified form may aega user ka object hume parse krwana hota
     userId: savedLocalStorageLoggedInUserData?.id,
+    subject: "",
     status: "open",
     severitylevel: "low",
     assignedto: "admin",
@@ -180,6 +179,7 @@ const DataForm = ({ ticket }) => {
       description: content, // Or you can use content (HTML string) if preferred
     }));
   };
+  console.log(formData); // Add this before API calls
 
   return (
     <div className="col-span-full">

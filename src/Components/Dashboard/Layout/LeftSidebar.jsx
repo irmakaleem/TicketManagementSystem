@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 const LeftSidebar = () => {
-  const location = useLocation();
-  const [adminRole, setAdminrole] = useState(
-    location.pathname.includes("/admin") ? "admin" : "user"
-  );
+  const adminRole = JSON.parse(localStorage.getItem("user"))?.role;
 
   const liItemsUser = [
     {

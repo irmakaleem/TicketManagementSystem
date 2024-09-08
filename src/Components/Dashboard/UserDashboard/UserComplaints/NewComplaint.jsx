@@ -14,14 +14,22 @@ const NewComplaint = () => {
   const fetchUserTicket = async () => {
     //api may jo id pass krware wo hamare pass hamari url se arhi
     //  const { id } = useParams(); ye wali id pass hori
-    const url = `${hostlink}/api/NewComplaint/${id}`;
-    const response = await axios.get(url);
-    const userTicket = response.data;
-    setTicket(userTicket);
+    try {
+      const url = `${hostlink}/api/NewComplaint/${id}`;
+      const response = await axios.get(url);
+      if (response.status === 200 || response.status === 201) {
+        const userTicket = response.data;
+        setTicket(userTicket);
+      }
+    } catch (error) {
+      console.error(error, "fetching tickets");
+    }
   };
   useEffect(() => {
-    fetchUserTicket();
-  }, []);
+    if (id) {
+      fetchUserTicket();
+    }
+  }, [id]);
 
   // checking if the data of the complain is coming or not
   return (
@@ -47,9 +55,7 @@ const DataForm = ({ ticket }) => {
   const [formData, setFormData] = useState({
     department: "",
     subDepartment: 1002,
-    fullName: savedLocalStorageLoggedInUserData.fullName,
-    email: savedLocalStorageLoggedInUserData.email,
-    designation: "",
+
     description: "",
     // ye stringified form may aega user ka object hume parse krwana hota
     userId: savedLocalStorageLoggedInUserData?.id,
@@ -79,98 +85,79 @@ const DataForm = ({ ticket }) => {
     phone: /^[0-9]{10,11}$/, // E.g., (+33)7 55 55 33 70
   };
 
-  // Validate inputs using regex
-  const validateForm = () => {
-    const newErrors = {};
-    if (!regexPatterns.fullName.test(formData.fullName)) {
-      newErrors.fullName = "Full Name can only contain letters and spaces";
-    }
-    if (!regexPatterns.email.test(formData.email)) {
-      newErrors.email = "Invalid email address";
-    }
-    if (!regexPatterns.phone.test(formData.phone)) {
-      newErrors.phone = "Invalid phone format, use: 9 digits";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   // Handle new form submission
   const handleSubmit = async (e) => {
     setLoading(true);
     e.preventDefault();
-    if (validateForm()) {
-      formData.department = parseInt(formData.department);
-      try {
-        // /api/contactform this is an endpoint for an api
-        const response = await axios.post(
-          `${hostlink}/api/newcomplaint`,
-          formData
-        );
 
-        // Clear form fields and errors after successful submission
-        if (response.status === 201) {
-          alert("Form submitted successfully");
-          // hume har new complaint ki id kahin pr save krwani hogy mtlb application may agr hum state use krengay srf to , state refresh hone pr initial value banjati hai mtlb agr state update bhi hui hogy to bhi wo hatjaegy new value or initial value ajaegy,smjhi? han to hume localstorgay istemal krna hoga kunke usme values refresh hone pr brwoser band hone pr bhi save rehtin
+    formData.department = parseInt(formData.department);
+    try {
+      // /api/contactform this is an endpoint for an api
+      const response = await axios.post(
+        `${hostlink}/api/newcomplaint`,
+        formData
+      );
 
-          // here response.data is coming from the form we submitted, response.data is an object in which all our data (id,email,name,department etc) from newcomplain form is inside response.data
-          //After submitting the form successfully user will redirect to the ticketpage,we use navigate to redirect to another page(/dashboard/ticketpage)
-          //${response.data.id} here we are grabbing the new complaint id from response.data object
-          //we are grabbing because we want to target certain complaint which user just filled, to open his/her complain on ticket page.
-          //eg/dashboard/ticketpage/1 1=id
-          setLoading(false);
-          navigate(`/dashboard/ticketpage/${response.data.id}`);
-        } else {
-          alert("Error submitting form");
-        }
-      } catch (error) {
-        console.error(error);
+      // Clear form fields and errors after successful submission
+      if (response.status === 201) {
+        alert("Form submitted successfully");
+        // hume har new complaint ki id kahin pr save krwani hogy mtlb application may agr hum state use krengay srf to , state refresh hone pr initial value banjati hai mtlb agr state update bhi hui hogy to bhi wo hatjaegy new value or initial value ajaegy,smjhi? han to hume localstorgay istemal krna hoga kunke usme values refresh hone pr brwoser band hone pr bhi save rehtin
+
+        // here response.data is coming from the form we submitted, response.data is an object in which all our data (id,email,name,department etc) from newcomplain form is inside response.data
+        //After submitting the form successfully user will redirect to the ticketpage,we use navigate to redirect to another page(/dashboard/ticketpage)
+        //${response.data.id} here we are grabbing the new complaint id from response.data object
+        //we are grabbing because we want to target certain complaint which user just filled, to open his/her complain on ticket page.
+        //eg/dashboard/ticketpage/1 1=id
         setLoading(false);
+        navigate(`/dashboard/ticketpage/${response.data.id}`);
+      } else {
+        alert("Error submitting form");
       }
-      setComplaintDetail("");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
+    setComplaintDetail("");
   };
 
   // Handle already added form submission
   const handleEdit = async (e) => {
     setLoading(false);
     e.preventDefault();
-    if (validateForm()) {
-      formData.department = parseInt(formData.department);
-      try {
-        // /api/contactform this is an endpoint for an api
-        // jab insert krwate to post ,or update krwate to put
-        // endpoint may id bhi jaati and method different hojata
-        const response = await axios.put(
-          `${hostlink}/api/newcomplaint/${formData?.id}`,
-          formData
-        );
 
-        // Clear form fields and errors after successful submission
-        // response ka status bhi different hota update may 204 milta agr sahi se update hota
-        if (response.status === 204) {
-          alert("Complain updated successfully");
-          // hume har new complaint ki id kahin pr save krwani hogy mtlb application may agr hum state use krengay srf to , state refresh hone pr initial value banjati hai mtlb agr state update bhi hui hogy to bhi wo hatjaegy new value or initial value ajaegy,smjhi? han to hume localstorgay istemal krna hoga kunke usme values refresh hone pr brwoser band hone pr bhi save rehtin
+    formData.department = parseInt(formData.department);
+    try {
+      // /api/contactform this is an endpoint for an api
+      // jab insert krwate to post ,or update krwate to put
+      // endpoint may id bhi jaati and method different hojata
+      const response = await axios.put(
+        `${hostlink}/api/newcomplaint/${formData?.id}`,
+        formData
+      );
 
-          // here response.data is coming from the form we submitted, response.data is an object in which all our data (id,email,name,department etc) from newcomplain form is inside response.data
-          //After submitting the form successfully user will redirect to the ticketpage,we use navigate to redirect to another page(/dashboard/ticketpage)
-          //${response.data.id} here we are grabbing the new complaint id from response.data object
-          //we are grabbing because we want to target certain complaint which user just filled, to open his/her complain on ticket page.
-          //eg/dashboard/ticketpage/1 1=id
-          // baki sab kch same
-          setLoading(false);
-          navigate(`/dashboard/ticketpage/${formData.id}`);
-        } else {
-          alert("Error submitting form");
-          setLoading(false);
-        }
-      } catch (error) {
-        console.error(error);
+      // Clear form fields and errors after successful submission
+      // response ka status bhi different hota update may 204 milta agr sahi se update hota
+      if (response.status === 204) {
+        alert("Complain updated successfully");
+        // hume har new complaint ki id kahin pr save krwani hogy mtlb application may agr hum state use krengay srf to , state refresh hone pr initial value banjati hai mtlb agr state update bhi hui hogy to bhi wo hatjaegy new value or initial value ajaegy,smjhi? han to hume localstorgay istemal krna hoga kunke usme values refresh hone pr brwoser band hone pr bhi save rehtin
+
+        // here response.data is coming from the form we submitted, response.data is an object in which all our data (id,email,name,department etc) from newcomplain form is inside response.data
+        //After submitting the form successfully user will redirect to the ticketpage,we use navigate to redirect to another page(/dashboard/ticketpage)
+        //${response.data.id} here we are grabbing the new complaint id from response.data object
+        //we are grabbing because we want to target certain complaint which user just filled, to open his/her complain on ticket page.
+        //eg/dashboard/ticketpage/1 1=id
+        // baki sab kch same
+        setLoading(false);
+        navigate(`/dashboard/ticketpage/${formData.id}`);
+      } else {
+        alert("Error submitting form");
         setLoading(false);
       }
-      setComplaintDetail("");
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
+    setComplaintDetail("");
   };
 
   const handleQuillChange = (content) => {
@@ -179,8 +166,6 @@ const DataForm = ({ ticket }) => {
       description: content, // Or you can use content (HTML string) if preferred
     }));
   };
-  console.log(formData); // Add this before API calls
-
   return (
     <div className="col-span-full">
       <div className="card p-0">

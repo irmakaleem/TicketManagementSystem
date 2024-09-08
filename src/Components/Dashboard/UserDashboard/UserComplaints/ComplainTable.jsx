@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, NavLink, useLocation } from "react-router-dom";
-import { getStatusClass } from "../../../../Utils/getStatusClass";
+import { Link } from "react-router-dom";
 import { hostlink } from "../../../../Utils/HostLink";
+import TableLayoutForComplaints from "../../Layout/TableLayoutForComplaints";
 
 //props define
 const ComplainTable = ({ selectedStatus, setSelectedStatus }) => {
@@ -85,128 +85,14 @@ const ComplainTable = ({ selectedStatus, setSelectedStatus }) => {
             complaint button
           </p>
         ) : (
-          <Table
+          <TableLayoutForComplaints
+            role="user"
             filteredTickets={filteredTickets}
             selectedStatus={selectedStatus}
           />
         )}
       </div>
     </div>
-  );
-};
-
-const Table = ({ filteredTickets, selectedStatus }) => {
-  return filteredTickets.length > 0 ? (
-    <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-      <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-        <tr>
-          <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-            Complain id
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Subject
-          </th>
-          <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-            Assigned to
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Start Date
-          </th>
-          <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-            End Date
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Status
-          </th>
-          <th scope="col" className="px-6 py-3">
-            Actions
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {filteredTickets.map((ticket) => {
-          // this is used for formatting the date and time coming from the database (databse datetime is not in readable format)
-          // for start date
-          const startdate = new Date(ticket.createdAt);
-          const formattedStartDate = new Intl.DateTimeFormat("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          }).format(startdate);
-
-          // for end date
-          const enddate = new Date(ticket.enddate);
-          const formattedEndDate = new Intl.DateTimeFormat("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            second: "2-digit",
-          }).format(enddate);
-          // ye condition isliye lagayi ke complain ki start or end date or time exact same agr hai to mtlb end date admin ne assign nhi kri mtlb default chlegyi end date database may ab is case may end date wale column may hum status add krskte
-          // ya chaho to direct status se check krlo agr pending hai to end date aye hi na
-          // drop to mtlb finished na khtm
-          // const dateCondition = formattedStartDate === formattedEndDate;
-          const statusCondition = ticket.status.toLowerCase() === "open";
-
-          return (
-            <tr
-              key={ticket.id}
-              className="border-b border-gray-200 dark:border-gray-700"
-            >
-              <th
-                scope="row"
-                className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-              >
-                {ticket.id}
-              </th>
-              <td className="px-6 py-4 capitalize">{ticket.subject}</td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 capitalize">
-                {ticket.assignedto}
-              </td>
-              <td className="px-6 py-4">{formattedStartDate}</td>
-              <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                {/* agr status open arha to not ened yet msg ajaye warna phr end date ajaegy */}
-                {statusCondition ? `Complain not Ended yet` : formattedEndDate}
-              </td>
-              <td className="px-6 py-4">
-                <span
-                  className={`p-2 rounded-xl ${getStatusClass(
-                    ticket.status.toLowerCase()
-                  )}`}
-                >
-                  {ticket.status}
-                </span>
-              </td>
-              <td className="px-6 py-4 flex flex-col gap-3 justify-center">
-                <NavLink
-                  to={`/dashboard/ticketpage/${ticket.id}`}
-                  className="px-3 py-2 rounded-xl bg-blue-200 capitalize text-sm text-center text-black"
-                >
-                  See more details
-                </NavLink>
-                <NavLink
-                  to={`/dashboard/edit-complaint/${ticket.id}`}
-                  className="px-3 py-2 rounded-xl bg-blue-200 capitalize text-sm text-center text-black"
-                >
-                  Edit Complain
-                </NavLink>
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  ) : (
-    <p className="w-full flex justify-center items-center p-4">
-      {selectedStatus === "Total Complaints"
-        ? "Loading..."
-        : "No Complains Found For The Selected Status, Please Try Another Status!"}
-    </p>
   );
 };
 

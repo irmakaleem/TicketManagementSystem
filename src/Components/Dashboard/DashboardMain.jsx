@@ -58,7 +58,12 @@ const DashboardMain = () => {
                 <Route
                   path="/"
                   //i am passing setter method of selectedStatus state in props of complaint component (props defined in complaint component)
-                  element={<AdminTable />}
+                  element={
+                    <AdminTable
+                      selectedStatus={selectedStatus}
+                      setSelectedStatus={setSelectedStatus}
+                    />
+                  }
                 />
                 <Route path="/adminticket" element={<AdminTicketpage />} />
                 <Route path="/severitylvl" element={<SeverityLvl />} />
@@ -88,9 +93,12 @@ const DashboardMain = () => {
 
                 <Route path="/account" element={<AccountDetails />} />
                 {/* /ticketpage/:id this means we can open the ticket page through id passed from the newcomplaint form and we can grab that id to fetch the complain data related to that id */}
-                <Route path="/ticketpage/:id" element={<TicketPage />} />
               </>
             )}
+            <Route
+              path="/ticketpage/:id"
+              element={<TicketPage role={role} />}
+            />
           </Routes>
         </div>
       </div>

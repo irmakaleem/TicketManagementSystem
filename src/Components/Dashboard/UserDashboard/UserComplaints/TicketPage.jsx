@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { getStatusClass } from "../../../../Utils/getStatusClass";
 import { hostlink } from "../../../../Utils/HostLink";
 
-const TicketPage = () => {
+const TicketPage = ({ role }) => {
   const [ticket, setTicket] = useState(null);
   const [formattedDate, setFormattedDate] = useState(null);
   //

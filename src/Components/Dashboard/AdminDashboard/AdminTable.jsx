@@ -1,13 +1,154 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import { Link } from "react-router-dom";
-const AdminTable = () => {
-  const [SearchFilterDropdowns, setSearchFilterDropdowns] = useState({
+import { hostlink } from "../../../Utils/HostLink";
+import { NavLink } from "react-router-dom";
+import TableLayoutForComplaints from "../Layout/TableLayoutForComplaints";
+const AdminTable = ({ selectedStatus, setSelectedStatus }) => {
+  const [searchFilterDropdowns, setSearchFilterDropdowns] = useState({
     severityLevel: "",
     status: "",
     department: "",
+    bulkAction: "",
   });
   const [complaints, setComplaints] = useState([]);
+
+  const [tickets, setTickets] = useState([]);
+  const [error, setError] = useState({});
+  const [filteredTickets, setFilteredTickets] = useState([]);
+
+  const [selectedComplaints, setSelectedComplaints] = useState([]);
+
+  const fetchTickets = async () => {
+    try {
+      // userid 2 thi issi userid se related jitni complaints thin wo arhi
+      const response = await axios.get(`${hostlink}/api/newcomplaint`);
+      // hogya sahi ye wala api endpoint ab data arha hai
+      // tickets ki state may save krware
+      setTickets(response.data);
+    } catch (error) {
+      console.error("Error fetching tickets", error);
+      setError({ error: error?.response?.data.message });
+    }
+  };
+
+  useEffect(() => {
+    // useEffect may fetch krware uper banaya wa function yahan call krware bas on reload fetch hojaye data
+    fetchTickets();
+  }, []);
+
+  useEffect(() => {
+    if (tickets?.length > 0) {
+      // yahan pr bhi krskte
+      const filtered = tickets.filter((ticket) => {
+        if (selectedStatus.toLowerCase().includes("total")) {
+          return true;
+        } else {
+          return selectedStatus.toLowerCase().includes(ticket.status);
+        }
+      });
+
+      setFilteredTickets(filtered);
+    }
+  }, [tickets, selectedStatus]);
+
+  const handleUpdateSL = async () => {
+    try {
+      if (selectedComplaints.length > 0) {
+        selectedComplaints.map(async (scId) => {
+          const formData = filteredTickets.filter(
+            (ticket) => ticket.id === scId
+          )[0];
+          console.log(formData);
+          //fetching complaints from newcomplaint table
+          const url = `${hostlink}/api/NewComplaint/${id}`;
+          const response = await axios.put(url);
+        });
+      } else {
+        setError({ message: "please select any complaint" });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const renderBulkAction = () => {
+    switch (searchFilterDropdowns.bulkAction) {
+      case "usl": // Update Severity Level
+        return (
+          <select
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            id="severitylvl"
+            value={searchFilterDropdowns.severityLevel}
+            onChange={(e) =>
+              setSearchFilterDropdowns((prevFields) => ({
+                ...prevFields,
+                severityLevel: e.target.value,
+              }))
+            }
+          >
+            <option value="" disabled>
+              Select Severity Level
+            </option>
+            <option value="1">SEV 1: Critical</option>
+            <option value="2">SEV 2: High</option>
+            <option value="3">SEV 3: Medium</option>
+            <option value="4">SEV 4: Low</option>
+            <option value="5">SEV 5: Informational</option>
+          </select>
+        );
+      case "us": // Update Status
+        return (
+          <select
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            id="status"
+            value={searchFilterDropdowns.status}
+            onChange={(e) =>
+              setSearchFilterDropdowns((prevFields) => ({
+                ...prevFields,
+                status: e.target.value,
+              }))
+            }
+          >
+            <option value="" disabled>
+              Select Status
+            </option>
+            <option value="open">Open</option>
+            <option value="closed">Closed</option>
+            <option value="resolved">Resolved</option>
+            <option value="pending">Pending</option>
+            <option value="dropped">Dropped</option>
+          </select>
+        );
+      case "sd": // Update Department
+        return (
+          <select
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            id="department"
+            value={searchFilterDropdowns.department}
+            onChange={(e) =>
+              setSearchFilterDropdowns((prevFields) => ({
+                ...prevFields,
+                department: e.target.value,
+              }))
+            }
+          >
+            <option value="" disabled>
+              Select a Department
+            </option>
+            <option value="IT">IT Department</option>
+            <option value="Finance">Finance Department</option>
+            <option value="DG">DG Department</option>
+            <option value="HR">HR Department</option>
+            <option value="Billing">Billing Department</option>
+            <option value="CNS">CNS Department</option>
+            <option value="Tax">Tax Department</option>
+          </select>
+        );
+      default:
+        return null; // Return null if no bulkAction is selected
+    }
+  };
 
   return (
     <>
@@ -18,7 +159,7 @@ const AdminTable = () => {
             <select
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
               id="severitylvl"
-              value={SearchFilterDropdowns.severityLevel}
+              value={searchFilterDropdowns.severityLevel}
               onChange={(e) =>
                 setSearchFilterDropdowns((prevFields) => ({
                   ...prevFields,
@@ -39,7 +180,7 @@ const AdminTable = () => {
             <select
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
               id="status"
-              value={SearchFilterDropdowns.status}
+              value={searchFilterDropdowns.status}
               onChange={(e) =>
                 setSearchFilterDropdowns((prevFields) => ({
                   ...prevFields,
@@ -60,7 +201,7 @@ const AdminTable = () => {
             <select
               className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
               id="department"
-              value={SearchFilterDropdowns.department}
+              value={searchFilterDropdowns.department}
               onChange={(e) =>
                 setSearchFilterDropdowns((prevFields) => ({
                   ...prevFields,
@@ -84,85 +225,41 @@ const AdminTable = () => {
       </div>
 
       <div className="flex justify-center items-start flex-col bg-white rounded-lg m-4 p-4">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Complaint ID
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Subject
-              </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                Assigned to
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Start Date
-              </th>
-              <th scope="col" className="px-6 py-3 bg-gray-50 dark:bg-gray-800">
-                End Date
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Status
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {complaints.length > 0 ? (
-              complaints.map((complaint) => (
-                <tr
-                  key={complaint.id}
-                  className="border-b border-gray-200 dark:border-gray-700"
-                >
-                  <th
-                    scope="row"
-                    className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap bg-gray-50 dark:text-white dark:bg-gray-800"
-                  >
-                    {complaint.id}
-                  </th>
-                  <td className="px-6 py-4 capitalize">{complaint.subject}</td>
-                  <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800 capitalize">
-                    {complaint.assignedTo}
-                  </td>
-                  <td className="px-6 py-4">{complaint.startDate}</td>
-                  <td className="px-6 py-4 bg-gray-50 dark:bg-gray-800">
-                    {complaint.endDate || "Not Ended Yet"}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`p-2 rounded-xl bg-status-${complaint.status.toLowerCase()}`}
-                    >
-                      {complaint.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 flex flex-col gap-3 justify-center">
-                    <NavLink
-                      to={`/dashboard/ticketpage/${complaint.id}`}
-                      className="px-3 py-2 rounded-xl bg-blue-200 capitalize text-sm text-center text-black"
-                    >
-                      Add Response
-                    </NavLink>
-                    <NavLink
-                      to={`/dashboard/edit-complaint/${complaint.id}`}
-                      className="px-3 py-2 rounded-xl bg-blue-200 capitalize text-sm text-center text-black"
-                    >
-                      Drop Complain
-                    </NavLink>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="7" className="text-center py-4">
-                  No complaints found
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        <select
+          className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+          id="bulkAction"
+          value={searchFilterDropdowns.bulkAction}
+          onChange={(e) =>
+            setSearchFilterDropdowns((prevFields) => ({
+              ...prevFields,
+              bulkAction: e.target.value,
+            }))
+          }
+        >
+          <option value="" disabled>
+            Bulk Actions
+          </option>
+          <option value="dc">Delete Complaints</option>
+          <option value="usl">Update Severity Level</option>
+          <option value="us">Update Status</option>
+          <option value="sd">Update Sub-Department</option>
+        </select>
+        {searchFilterDropdowns.bulkAction !== "" &&
+          console.log(renderBulkAction())}
+        {error?.error ? (
+          <p className="p-5">
+            No complaints found! You can add a new complaint by clicking the add
+            complaint button
+          </p>
+        ) : (
+          <TableLayoutForComplaints
+            role="admin"
+            filteredTickets={filteredTickets}
+            selectedStatus={selectedStatus}
+            selectedComplaints={selectedComplaints}
+            setSelectedComplaints={setSelectedComplaints}
+          />
+        )}
       </div>
     </>
   );

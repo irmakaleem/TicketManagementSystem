@@ -71,85 +71,7 @@ const AdminTable = ({ selectedStatus, setSelectedStatus }) => {
       console.error(error);
     }
   };
-
-  const renderBulkAction = () => {
-    switch (searchFilterDropdowns.bulkAction) {
-      case "usl": // Update Severity Level
-        return (
-          <select
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-            id="severitylvl"
-            value={searchFilterDropdowns.severityLevel}
-            onChange={(e) =>
-              setSearchFilterDropdowns((prevFields) => ({
-                ...prevFields,
-                severityLevel: e.target.value,
-              }))
-            }
-          >
-            <option value="" disabled>
-              Select Severity Level
-            </option>
-            <option value="1">SEV 1: Critical</option>
-            <option value="2">SEV 2: High</option>
-            <option value="3">SEV 3: Medium</option>
-            <option value="4">SEV 4: Low</option>
-            <option value="5">SEV 5: Informational</option>
-          </select>
-        );
-      case "us": // Update Status
-        return (
-          <select
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-            id="status"
-            value={searchFilterDropdowns.status}
-            onChange={(e) =>
-              setSearchFilterDropdowns((prevFields) => ({
-                ...prevFields,
-                status: e.target.value,
-              }))
-            }
-          >
-            <option value="" disabled>
-              Select Status
-            </option>
-            <option value="open">Open</option>
-            <option value="closed">Closed</option>
-            <option value="resolved">Resolved</option>
-            <option value="pending">Pending</option>
-            <option value="dropped">Dropped</option>
-          </select>
-        );
-      case "sd": // Update Department
-        return (
-          <select
-            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-            id="department"
-            value={searchFilterDropdowns.department}
-            onChange={(e) =>
-              setSearchFilterDropdowns((prevFields) => ({
-                ...prevFields,
-                department: e.target.value,
-              }))
-            }
-          >
-            <option value="" disabled>
-              Select a Department
-            </option>
-            <option value="IT">IT Department</option>
-            <option value="Finance">Finance Department</option>
-            <option value="DG">DG Department</option>
-            <option value="HR">HR Department</option>
-            <option value="Billing">Billing Department</option>
-            <option value="CNS">CNS Department</option>
-            <option value="Tax">Tax Department</option>
-          </select>
-        );
-      default:
-        return null; // Return null if no bulkAction is selected
-    }
-  };
-
+  const handleDelete = () => {};
   return (
     <>
       <div className="main-content group-data-[sidebar-size=lg]:xl:ml-[calc(theme('spacing.app-menu')_+_16px)] group-data-[sidebar-size=sm]:xl:ml-[calc(theme('spacing.app-menu-sm')_+_16px)] px-4 ac-transition">
@@ -225,27 +147,33 @@ const AdminTable = ({ selectedStatus, setSelectedStatus }) => {
       </div>
 
       <div className="flex justify-center items-start flex-col bg-white rounded-lg m-4 p-4">
-        <select
-          className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
-          id="bulkAction"
-          value={searchFilterDropdowns.bulkAction}
-          onChange={(e) =>
-            setSearchFilterDropdowns((prevFields) => ({
-              ...prevFields,
-              bulkAction: e.target.value,
-            }))
-          }
-        >
-          <option value="" disabled>
-            Bulk Actions
-          </option>
-          <option value="dc">Delete Complaints</option>
-          <option value="usl">Update Severity Level</option>
-          <option value="us">Update Status</option>
-          <option value="sd">Update Sub-Department</option>
-        </select>
-        {searchFilterDropdowns.bulkAction !== "" &&
-          console.log(renderBulkAction())}
+        <div className="flex gap-3">
+          <select
+            className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+            id="bulkAction"
+            value={searchFilterDropdowns.bulkAction}
+            onChange={(e) =>
+              setSearchFilterDropdowns((prevFields) => ({
+                ...prevFields,
+                bulkAction: e.target.value,
+              }))
+            }
+          >
+            <option value="" disabled>
+              Bulk Actions
+            </option>
+            <option value="dc">Delete Complaints</option>
+            <option value="usl">Update Severity Level</option>
+            <option value="us">Update Status</option>
+            <option value="sd">Update Sub-Department</option>
+          </select>
+          {searchFilterDropdowns.bulkAction !== "" && (
+            <RenderBulkAction
+              searchFilterDropdowns={searchFilterDropdowns}
+              setSearchFilterDropdowns={setSearchFilterDropdowns}
+            />
+          )}
+        </div>
         {error?.error ? (
           <p className="p-5">
             No complaints found! You can add a new complaint by clicking the add
@@ -264,5 +192,86 @@ const AdminTable = ({ selectedStatus, setSelectedStatus }) => {
     </>
   );
 };
-
+const RenderBulkAction = ({
+  searchFilterDropdowns,
+  setSearchFilterDropdowns,
+}) => {
+  switch (searchFilterDropdowns.bulkAction) {
+    case "dc": // delete
+      return <button onClick={handleDelete}>Confirm Deletion</button>;
+    case "usl": // Update Severity Level
+      return (
+        <select
+          className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+          id="severitylvl"
+          value={searchFilterDropdowns.severityLevel}
+          onChange={(e) =>
+            setSearchFilterDropdowns((prevFields) => ({
+              ...prevFields,
+              severityLevel: e.target.value,
+            }))
+          }
+        >
+          <option value="" disabled>
+            Select Severity Level
+          </option>
+          <option value="1">SEV 1: Critical</option>
+          <option value="2">SEV 2: High</option>
+          <option value="3">SEV 3: Medium</option>
+          <option value="4">SEV 4: Low</option>
+          <option value="5">SEV 5: Informational</option>
+        </select>
+      );
+    case "us": // Update Status
+      return (
+        <select
+          className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+          id="status"
+          value={searchFilterDropdowns.status}
+          onChange={(e) =>
+            setSearchFilterDropdowns((prevFields) => ({
+              ...prevFields,
+              status: e.target.value,
+            }))
+          }
+        >
+          <option value="" disabled>
+            Select Status
+          </option>
+          <option value="open">Open</option>
+          <option value="closed">Closed</option>
+          <option value="resolved">Resolved</option>
+          <option value="pending">Pending</option>
+          <option value="dropped">Dropped</option>
+        </select>
+      );
+    case "sd": // Update Department
+      return (
+        <select
+          className="bg-gray-100 text-gray-900 border-0 rounded-md p-2 mb-4 focus:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-blue-500 transition ease-in-out duration-150"
+          id="department"
+          value={searchFilterDropdowns.department}
+          onChange={(e) =>
+            setSearchFilterDropdowns((prevFields) => ({
+              ...prevFields,
+              department: e.target.value,
+            }))
+          }
+        >
+          <option value="" disabled>
+            Select a Department
+          </option>
+          <option value="IT">IT Department</option>
+          <option value="Finance">Finance Department</option>
+          <option value="DG">DG Department</option>
+          <option value="HR">HR Department</option>
+          <option value="Billing">Billing Department</option>
+          <option value="CNS">CNS Department</option>
+          <option value="Tax">Tax Department</option>
+        </select>
+      );
+    default:
+      return null; // Return null if no bulkAction is selected
+  }
+};
 export default AdminTable;

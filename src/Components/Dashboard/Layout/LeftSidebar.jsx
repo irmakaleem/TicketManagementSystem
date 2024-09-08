@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 const LeftSidebar = () => {
   const adminRole = JSON.parse(localStorage.getItem("user"))?.role;
 
